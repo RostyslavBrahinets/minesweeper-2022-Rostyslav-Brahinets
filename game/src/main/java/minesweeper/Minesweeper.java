@@ -5,13 +5,15 @@ import java.awt.*;
 import java.util.Objects;
 
 public class Minesweeper extends JFrame {
-    private final int COLS = 9;
+    private GameController gameController;
+
+    private final int COLUMNS = 9;
     private final int ROWS = 9;
     private final int GRID_SIZE = 50;
     private JPanel panel;
 
     private Minesweeper() {
-        Range.setSize(new Coordinate(COLS, ROWS));
+        gameController = new GameController(COLUMNS, ROWS);
         setImages();
         initPanel();
         initFrame();
@@ -28,7 +30,7 @@ public class Minesweeper extends JFrame {
                 super.paintComponent(g);
                 for (Coordinate coordinate : Range.getCoordinates()) {
                     g.drawImage(
-                        (Image) Grid.MINE.image,
+                        (Image) gameController.getGrid(coordinate).image,
                         coordinate.getX() * GRID_SIZE,
                         coordinate.getY() * GRID_SIZE,
                         this
