@@ -5,8 +5,8 @@ import java.awt.*;
 import java.util.Objects;
 
 public class Minesweeper extends JFrame {
-    private final int COLS = 15;
-    private final int ROWS = 1;
+    private final int COLS = 9;
+    private final int ROWS = 9;
     private final int GRID_SIZE = 50;
     private JPanel panel;
 
@@ -26,27 +26,24 @@ public class Minesweeper extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                for (Grid grid : Grid.values()) {
-                    Coordinate coordinate = new Coordinate(
-                        grid.ordinal() * GRID_SIZE,
-                        0
-                    );
-
+                for (Coordinate coordinate : Range.getCoordinates()) {
                     g.drawImage(
-                        (Image) grid.image,
-                        coordinate.getX(),
-                        coordinate.getY(),
+                        (Image) Grid.MINE.image,
+                        coordinate.getX() * GRID_SIZE,
+                        coordinate.getY() * GRID_SIZE,
                         this
                     );
                 }
             }
         };
+
         panel.setPreferredSize(
             new Dimension(
                 Range.getSize().getX() * GRID_SIZE,
                 Range.getSize().getY() * GRID_SIZE
             )
         );
+
         add(panel);
     }
 
