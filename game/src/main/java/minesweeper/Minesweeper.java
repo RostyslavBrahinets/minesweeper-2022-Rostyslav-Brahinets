@@ -11,6 +11,7 @@ public class Minesweeper extends JFrame {
     private JPanel panel;
 
     private Minesweeper() {
+        Range.setSize(new Coordinate(COLS, ROWS));
         setImages();
         initPanel();
         initFrame();
@@ -26,15 +27,24 @@ public class Minesweeper extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 for (Grid grid : Grid.values()) {
-                    Coordinate coordinate = new Coordinate(grid.ordinal() * GRID_SIZE, 0);
-                    g.drawImage((Image) grid.image, coordinate.getX(), coordinate.getY(), this);
+                    Coordinate coordinate = new Coordinate(
+                        grid.ordinal() * GRID_SIZE,
+                        0
+                    );
+
+                    g.drawImage(
+                        (Image) grid.image,
+                        coordinate.getX(),
+                        coordinate.getY(),
+                        this
+                    );
                 }
             }
         };
         panel.setPreferredSize(
             new Dimension(
-                COLS * GRID_SIZE,
-                ROWS * GRID_SIZE
+                Range.getSize().getX() * GRID_SIZE,
+                Range.getSize().getY() * GRID_SIZE
             )
         );
         add(panel);
