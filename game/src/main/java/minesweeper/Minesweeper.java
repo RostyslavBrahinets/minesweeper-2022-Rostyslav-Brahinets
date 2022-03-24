@@ -26,7 +26,8 @@ public class Minesweeper extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 for (Grid grid : Grid.values()) {
-                    g.drawImage((Image) grid.image, grid.ordinal() * GRID_SIZE, 0, this);
+                    Coordinate coordinate = new Coordinate(grid.ordinal() * GRID_SIZE, 0);
+                    g.drawImage((Image) grid.image, coordinate.getX(), coordinate.getY(), this);
                 }
             }
         };
