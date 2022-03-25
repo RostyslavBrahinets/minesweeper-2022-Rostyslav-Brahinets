@@ -3,14 +3,17 @@ package minesweeper;
 import java.util.Optional;
 
 public class GameController {
+    private Matrix mineMap;
+
     public GameController(int columns, int rows) {
         Range.setSize(new Coordinate(columns, rows));
     }
 
+    public void start() {
+        mineMap = new Matrix(Cell.EMPTY);
+    }
+
     public Optional<Cell> getCell(Coordinate coordinate) {
-        Cell cell = Cell.values()[
-            (coordinate.getX() + coordinate.getY()) % Cell.values().length
-            ];
-        return Optional.ofNullable(cell);
+        return mineMap.get(coordinate);
     }
 }

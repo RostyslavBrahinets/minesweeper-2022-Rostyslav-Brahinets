@@ -26,4 +26,11 @@ public class Range {
     public static List<Coordinate> getCoordinates() {
         return coordinates;
     }
+
+    static boolean inRange(Coordinate coordinate) {
+        return coordinate.getX() >= 0
+            && coordinate.getX() < size.getX()
+            && coordinate.getY() >= 0
+            && coordinate.getY() < size.getY();
+    }
 }
