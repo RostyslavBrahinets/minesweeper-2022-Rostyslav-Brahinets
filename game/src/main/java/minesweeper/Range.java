@@ -2,16 +2,17 @@ package minesweeper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Range {
     private static Coordinate size;
     private static List<Coordinate> coordinates;
 
-    public static Coordinate getSize() {
-        return size;
+    public static Optional<Coordinate> getSize() {
+        return Optional.ofNullable(size);
     }
 
-    public static void setSize(Coordinate newSize) {
+    static void setSize(Coordinate newSize) {
         size = newSize;
 
         coordinates = new ArrayList<>();
