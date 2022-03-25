@@ -1,6 +1,6 @@
 package minesweeper;
 
-public enum Grid {
+public enum Cell {
     EMPTY,
     NUM1,
     NUM2,

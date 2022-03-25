@@ -9,7 +9,7 @@ public class Minesweeper extends JFrame {
 
     private final int COLUMNS = 9;
     private final int ROWS = 9;
-    private final int GRID_SIZE = 50;
+    private final int CELL_SIZE = 50;
     private JPanel panel;
 
     private Minesweeper() {
@@ -30,9 +30,9 @@ public class Minesweeper extends JFrame {
                 super.paintComponent(g);
                 for (Coordinate coordinate : Range.getCoordinates()) {
                     g.drawImage(
-                        (Image) gameController.getGrid(coordinate).image,
-                        coordinate.getX() * GRID_SIZE,
-                        coordinate.getY() * GRID_SIZE,
+                        (Image) gameController.getCell(coordinate).image,
+                        coordinate.getX() * CELL_SIZE,
+                        coordinate.getY() * CELL_SIZE,
                         this
                     );
                 }
@@ -41,8 +41,8 @@ public class Minesweeper extends JFrame {
 
         panel.setPreferredSize(
             new Dimension(
-                Range.getSize().getX() * GRID_SIZE,
-                Range.getSize().getY() * GRID_SIZE
+                Range.getSize().getX() * CELL_SIZE,
+                Range.getSize().getY() * CELL_SIZE
             )
         );
 
@@ -60,8 +60,8 @@ public class Minesweeper extends JFrame {
     }
 
     private void setImages() {
-        for (Grid grid : Grid.values()) {
-            grid.image = getImage(grid.name().toLowerCase());
+        for (Cell cell : Cell.values()) {
+            cell.image = getImage(cell.name().toLowerCase());
         }
     }
 

@@ -5,9 +5,9 @@ public class GameController {
         Range.setSize(new Coordinate(columns, rows));
     }
 
-    public Grid getGrid(Coordinate coordinate) {
-        return Grid.values()[
-            (coordinate.getX() + coordinate.getY()) % Grid.values().length
+    public Cell getCell(Coordinate coordinate) {
+        return Cell.values()[
+            (coordinate.getX() + coordinate.getY()) % Cell.values().length
             ];
     }
 }
