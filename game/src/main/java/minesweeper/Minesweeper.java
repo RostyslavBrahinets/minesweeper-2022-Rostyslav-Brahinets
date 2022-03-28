@@ -9,11 +9,12 @@ public class Minesweeper extends JFrame {
     private final int COLUMNS = 9;
     private final int ROWS = 9;
     private final int CELL_SIZE = 50;
-    private GameController gameController;
+    private final int MINES = 10;
+    private final GameController gameController;
     private JPanel panel;
 
     private Minesweeper() {
-        gameController = new GameController(COLUMNS, ROWS);
+        gameController = new GameController(COLUMNS, ROWS, MINES);
         gameController.start();
         setImages();
         initPanel();
@@ -55,7 +56,6 @@ public class Minesweeper extends JFrame {
     }
 
     private void initFrame() {
-        pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Minesweeper");
         setLocationRelativeTo(null);
@@ -63,6 +63,7 @@ public class Minesweeper extends JFrame {
         Optional<Image> icon = getImage("icon");
         icon.ifPresent(this::setIconImage);
         setVisible(true);
+        pack();
     }
 
     private void setImages() {
