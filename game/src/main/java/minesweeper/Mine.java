@@ -26,8 +26,19 @@ public class Mine {
         if (coordinateOptional.isPresent()) {
             Coordinate coordinate = coordinateOptional.get();
             mineMap.set(Cell.MINE, coordinate);
-            for (Coordinate aroundCoordinate : Range.getCoordinatesAround(coordinate)) {
-                mineMap.set(Cell.NUM1, aroundCoordinate);
+            incrementNumbersAroundMine(coordinate);
+        }
+    }
+
+    private void incrementNumbersAroundMine(Coordinate coordinate) {
+        for (Coordinate aroundCoordinate : Range.getCoordinatesAround(coordinate)) {
+            Optional<Cell> mineOptional = mineMap.get(aroundCoordinate);
+            if (mineOptional.isPresent()) {
+                Cell mine = mineOptional.get();
+                if (Cell.MINE != mine) {
+                    Optional<Cell> numberOptional = mine.getNextNumberCell();
+                    numberOptional.ifPresent(number -> mineMap.set(number, aroundCoordinate));
+                }
             }
         }
     }

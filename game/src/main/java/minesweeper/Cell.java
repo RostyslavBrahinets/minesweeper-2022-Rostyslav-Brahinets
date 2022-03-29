@@ -1,5 +1,7 @@
 package minesweeper;
 
+import java.util.Optional;
+
 public enum Cell {
     EMPTY,
     NUM1,
@@ -18,4 +20,8 @@ public enum Cell {
     NOMINE;
 
     public Object image;
+
+    Optional<Cell> getNextNumberCell() {
+        return Optional.ofNullable(Cell.values()[this.ordinal() + 1]);
+    }
 }
