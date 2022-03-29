@@ -44,4 +44,22 @@ public class Range {
 
         return Optional.of(coordinate);
     }
+
+    static List<Coordinate> getCoordinatesAround(Coordinate coordinate) {
+        Coordinate coordinateAround;
+        List<Coordinate> coordinates = new ArrayList<>();
+
+        for (int x = coordinate.getX() - 1; x <= coordinate.getX() + 1; x++) {
+            for (int y = coordinate.getY() - 1; y <= coordinate.getY() + 1; y++) {
+                coordinateAround = new Coordinate(x, y);
+                if (inRange(coordinateAround)) {
+                    if (!coordinateAround.equals(coordinate)) {
+                        coordinates.add(coordinateAround);
+                    }
+                }
+            }
+        }
+
+        return coordinates;
+    }
 }

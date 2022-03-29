@@ -23,6 +23,12 @@ public class Mine {
 
     private void placeMine() {
         Optional<Coordinate> coordinateOptional = Range.getRandomCoordinate();
-        coordinateOptional.ifPresent(coordinate -> mineMap.set(Cell.MINE, coordinate));
+        if (coordinateOptional.isPresent()) {
+            Coordinate coordinate = coordinateOptional.get();
+            mineMap.set(Cell.MINE, coordinate);
+            for (Coordinate aroundCoordinate : Range.getCoordinatesAround(coordinate)) {
+                mineMap.set(Cell.NUM1, aroundCoordinate);
+            }
+        }
     }
 }
