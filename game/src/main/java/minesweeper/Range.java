@@ -3,8 +3,10 @@ package minesweeper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class Range {
+    private static final Random random = new Random();
     private static Coordinate size;
     private static List<Coordinate> coordinates;
 
@@ -32,5 +34,14 @@ public class Range {
             && coordinate.getX() < size.getX()
             && coordinate.getY() >= 0
             && coordinate.getY() < size.getY();
+    }
+
+    static Optional<Coordinate> getRandomCoordinate() {
+        Coordinate coordinate = new Coordinate(
+            random.nextInt(size.getX()),
+            random.nextInt(size.getY())
+        );
+
+        return Optional.of(coordinate);
     }
 }
