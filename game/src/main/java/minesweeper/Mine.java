@@ -3,11 +3,12 @@ package minesweeper;
 import java.util.Optional;
 
 public class Mine {
-    private final int totalMines;
+    private int totalMines;
     private Matrix mineMap;
 
     public Mine(int totalMines) {
         this.totalMines = totalMines;
+        fixMinesCount();
     }
 
     void start() {
@@ -21,12 +22,32 @@ public class Mine {
         return mineMap.get(coordinate);
     }
 
+    private void fixMinesCount() {
+        Optional<Coordinate> sizeOptional = Range.getSize();
+        if (sizeOptional.isPresent()) {
+            Coordinate size = sizeOptional.get();
+            int maxMines = size.getX() * size.getY() / 2;
+            if (totalMines > maxMines) {
+                totalMines = maxMines;
+            }
+        }
+    }
+
     private void placeMine() {
-        Optional<Coordinate> coordinateOptional = Range.getRandomCoordinate();
-        if (coordinateOptional.isPresent()) {
-            Coordinate coordinate = coordinateOptional.get();
-            mineMap.set(Cell.MINE, coordinate);
-            incrementNumbersAroundMine(coordinate);
+        while (true) {
+            Optional<Coordinate> coordinateOptional = Range.getRandomCoordinate();
+            if (coordinateOptional.isPresent()) {
+                Coordinate coordinate = coordinateOptional.get();
+                Optional<Cell> mine = mineMap.get(coordinate);
+                if (mine.isPresent()) {
+                    if (Cell.MINE == mine.get()) {
+                        continue;
+                    }
+                }
+                mineMap.set(Cell.MINE, coordinate);
+                incrementNumbersAroundMine(coordinate);
+                break;
+            }
         }
     }
 
