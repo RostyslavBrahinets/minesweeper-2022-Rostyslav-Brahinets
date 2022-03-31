@@ -2,6 +2,8 @@ package minesweeper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -43,6 +45,21 @@ public class Minesweeper extends JFrame {
                 }
             }
         };
+
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int x = e.getX() / CELL_SIZE;
+                int y = e.getY() / CELL_SIZE;
+                Coordinate coordinate = new Coordinate(x, y);
+
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    gameController.pressLeftButton(coordinate);
+                }
+
+                panel.repaint();
+            }
+        });
 
         Optional<Coordinate> sizeOptional = Range.getSize();
         sizeOptional.ifPresent(size -> panel.setPreferredSize(

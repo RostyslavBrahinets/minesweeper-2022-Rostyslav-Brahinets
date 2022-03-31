@@ -26,4 +26,8 @@ public class GameController {
         }
         return flag.get(coordinate);
     }
+
+    public void pressLeftButton(Coordinate coordinate) {
+        flag.setOpenedToCell(coordinate);
+    }
 }
