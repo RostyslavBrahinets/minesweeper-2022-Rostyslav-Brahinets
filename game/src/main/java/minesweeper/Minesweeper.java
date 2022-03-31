@@ -15,16 +15,15 @@ public class Minesweeper extends JFrame {
     private final GameController gameController;
     private JPanel panel;
 
-    private Minesweeper() {
+    public Minesweeper() {
         gameController = new GameController(COLUMNS, ROWS, MINES);
+    }
+
+    public void start() {
         gameController.start();
         setImages();
         initPanel();
         initFrame();
-    }
-
-    public static void main(String[] args) {
-        new Minesweeper();
     }
 
     private void initPanel() {
