@@ -16,4 +16,8 @@ public class Flag {
     public void setOpenedToCell(Coordinate coordinate) {
         flagMap.set(Cell.OPENED, coordinate);
     }
+
+    public void setFlagToCell(Coordinate coordinate) {
+        flagMap.set(Cell.FLAG, coordinate);
+    }
 }

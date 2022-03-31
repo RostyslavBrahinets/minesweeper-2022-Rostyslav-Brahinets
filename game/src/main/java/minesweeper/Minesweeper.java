@@ -54,6 +54,8 @@ public class Minesweeper extends JFrame {
 
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     gameController.pressLeftButton(coordinate);
+                } else if (e.getButton() == MouseEvent.BUTTON3) {
+                    gameController.pressRightButton(coordinate);
                 }
 
                 panel.repaint();
