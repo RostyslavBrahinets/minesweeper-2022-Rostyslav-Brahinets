@@ -78,12 +78,12 @@ public class Minesweeper extends JFrame {
     private void initFrame() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Minesweeper");
-        setLocationRelativeTo(null);
         setResizable(false);
-        Optional<Image> icon = getImage("icon");
-        icon.ifPresent(this::setIconImage);
         setVisible(true);
         pack();
+        setLocationRelativeTo(null);
+        Optional<Image> icon = getImage("icon");
+        icon.ifPresent(this::setIconImage);
     }
 
     private void setImages() {
