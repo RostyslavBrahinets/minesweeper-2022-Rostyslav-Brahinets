@@ -32,6 +32,6 @@ public class GameController {
     }
 
     public void pressRightButton(Coordinate coordinate) {
-        flag.setFlagToCell(coordinate);
+        flag.toggleFlagInCell(coordinate);
     }
 }

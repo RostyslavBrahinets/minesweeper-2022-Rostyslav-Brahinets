@@ -17,7 +17,22 @@ public class Flag {
         flagMap.set(Cell.OPENED, coordinate);
     }
 
+    public void toggleFlagInCell(Coordinate coordinate) {
+        Optional<Cell> cell = flagMap.get(coordinate);
+        if (cell.isPresent()) {
+            switch (cell.get()) {
+                case CLOSED -> setFlagToCell(coordinate);
+                case FLAG -> setClosedToCell(coordinate);
+            }
+        }
+
+    }
+
     public void setFlagToCell(Coordinate coordinate) {
         flagMap.set(Cell.FLAG, coordinate);
+    }
+
+    private void setClosedToCell(Coordinate coordinate) {
+        flagMap.set(Cell.CLOSED, coordinate);
     }
 }
