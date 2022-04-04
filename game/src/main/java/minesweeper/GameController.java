@@ -5,6 +5,7 @@ import java.util.Optional;
 public class GameController {
     private final Mine mine;
     private final Flag flag;
+    private GameState state;
 
     public GameController(int columns, int rows, int mines) {
         Range.setSize(new Coordinate(columns, rows));
@@ -15,6 +16,7 @@ public class GameController {
     public void start() {
         mine.start();
         flag.start();
+        state = GameState.PLAYED;
     }
 
     public Optional<Cell> getCell(Coordinate coordinate) {
@@ -33,5 +35,9 @@ public class GameController {
 
     public void pressRightButton(Coordinate coordinate) {
         flag.toggleFlagInCell(coordinate);
+    }
+
+    public GameState getState() {
+        return state;
     }
 }

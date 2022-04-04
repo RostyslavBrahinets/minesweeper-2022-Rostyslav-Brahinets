@@ -13,6 +13,7 @@ public class Minesweeper extends JFrame {
     private final int CELL_SIZE = 50;
     private final int MINES = 10;
     private final GameController gameController;
+    private JLabel label;
     private JPanel panel;
 
     public Minesweeper() {
@@ -22,8 +23,14 @@ public class Minesweeper extends JFrame {
     public void start() {
         gameController.start();
         setImages();
+        initLabel();
         initPanel();
         initFrame();
+    }
+
+    public void initLabel() {
+        label = new JLabel("Welcome!");
+        add(label, BorderLayout.SOUTH);
     }
 
     private void initPanel() {
@@ -60,6 +67,7 @@ public class Minesweeper extends JFrame {
                     gameController.start();
                 }
 
+                label.setText(getMessage());
                 panel.repaint();
             }
         });
@@ -73,6 +81,14 @@ public class Minesweeper extends JFrame {
         ));
 
         add(panel);
+    }
+
+    private String getMessage() {
+        return switch (gameController.getState()) {
+            case PLAYED -> "Find all the mines!";
+            case FAILED -> "Sorry! You died!";
+            case WINNER -> "Wow! You did it!";
+        };
     }
 
     private void initFrame() {
