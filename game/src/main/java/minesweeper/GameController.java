@@ -50,7 +50,10 @@ public class GameController {
             if (flagCell == OPENED || flagCell == FLAG) {
                 return;
             } else if (flagCell == CLOSED) {
-                if (mineCell == EMPTY || mineCell == MINE) {
+                if (mineCell == EMPTY) {
+                    openCellsAround(coordinate);
+                    return;
+                } else if (mineCell == MINE) {
                     return;
                 } else {
                     flag.setOpenedToCell(coordinate);
@@ -62,5 +65,12 @@ public class GameController {
 
     public GameState getState() {
         return state;
+    }
+
+    private void openCellsAround(Coordinate coordinate) {
+        flag.setOpenedToCell(coordinate);
+        for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
+            openCell(coordinateAround);
+        }
     }
 }
