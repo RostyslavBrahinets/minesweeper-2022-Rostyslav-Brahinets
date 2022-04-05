@@ -30,16 +30,32 @@ public class GameController {
     }
 
     public void pressLeftButton(Coordinate coordinate) {
+        if (gameOver()) {
+            return;
+        }
+
         openCell(coordinate);
         checkWinner();
     }
 
     public void pressRightButton(Coordinate coordinate) {
+        if (gameOver()) {
+            return;
+        }
+
         flag.toggleFlagInCell(coordinate);
     }
 
     public GameState getState() {
         return state;
+    }
+
+    private boolean gameOver() {
+        if (state == GameState.PLAYED) {
+            return false;
+        }
+        start();
+        return true;
     }
 
     private void checkWinner() {
