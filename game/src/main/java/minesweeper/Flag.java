@@ -32,6 +32,10 @@ public class Flag {
 
     }
 
+    void setFailToCell(Coordinate coordinate) {
+        flagMap.set(Cell.FAIL, coordinate);
+    }
+
     int getCountOfClosedMines() {
         return countOfClosedCells;
     }
@@ -42,5 +46,23 @@ public class Flag {
 
     private void setClosedToCell(Coordinate coordinate) {
         flagMap.set(Cell.CLOSED, coordinate);
+    }
+
+    public void setOpenedToClosedMineCell(Coordinate coordinate) {
+        Optional<Cell> cell = flagMap.get(coordinate);
+        if (cell.isPresent()) {
+            if (cell.get() == Cell.CLOSED) {
+                flagMap.set(Cell.OPENED, coordinate);
+            }
+        }
+    }
+
+    public void setNomineToFlagSafeCell(Coordinate coordinate) {
+        Optional<Cell> cell = flagMap.get(coordinate);
+        if (cell.isPresent()) {
+            if (cell.get() == Cell.FLAG) {
+                flagMap.set(Cell.NOMINE, coordinate);
+            }
+        }
     }
 }

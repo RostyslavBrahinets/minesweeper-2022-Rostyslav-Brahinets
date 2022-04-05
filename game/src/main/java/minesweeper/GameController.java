@@ -2,8 +2,6 @@ package minesweeper;
 
 import java.util.Optional;
 
-import static minesweeper.Cell.*;
-
 public class GameController {
     private final Mine mine;
     private final Flag flag;
@@ -22,9 +20,9 @@ public class GameController {
     }
 
     public Optional<Cell> getCell(Coordinate coordinate) {
-        Optional<Cell> cellOptional = flag.get(coordinate);
-        if (cellOptional.isPresent()) {
-            if (cellOptional.get() == OPENED) {
+        Optional<Cell> cell = flag.get(coordinate);
+        if (cell.isPresent()) {
+            if (cell.get() == Cell.OPENED) {
                 return mine.get(coordinate);
             }
         }
@@ -60,13 +58,14 @@ public class GameController {
             Cell flagCell = flagOptional.get();
             Cell mineCell = mineOptional.get();
 
-            if (flagCell == OPENED || flagCell == FLAG) {
+            if (flagCell == Cell.OPENED || flagCell == Cell.FLAG) {
                 return;
-            } else if (flagCell == CLOSED) {
-                if (mineCell == EMPTY) {
+            } else if (flagCell == Cell.CLOSED) {
+                if (mineCell == Cell.EMPTY) {
                     openCellsAround(coordinate);
                     return;
-                } else if (mineCell == MINE) {
+                } else if (mineCell == Cell.MINE) {
+                    openMines(coordinate);
                     return;
                 } else {
                     flag.setOpenedToCell(coordinate);
@@ -80,6 +79,22 @@ public class GameController {
         flag.setOpenedToCell(coordinate);
         for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
             openCell(coordinateAround);
+        }
+    }
+
+    private void openMines(Coordinate coordinateWithMine) {
+        state = GameState.FAILED;
+        flag.setFailToCell(coordinateWithMine);
+
+        for (Coordinate coordinate : Range.getCoordinates()) {
+            Optional<Cell> mine = this.mine.get(coordinate);
+            if (mine.isPresent()) {
+                if (mine.get() == Cell.MINE) {
+                    flag.setOpenedToClosedMineCell(coordinate);
+                } else {
+                    flag.setNomineToFlagSafeCell(coordinate);
+                }
+            }
         }
     }
 }
