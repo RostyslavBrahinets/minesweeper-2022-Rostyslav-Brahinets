@@ -33,10 +33,23 @@ public class GameController {
 
     public void pressLeftButton(Coordinate coordinate) {
         openCell(coordinate);
+        checkWinner();
     }
 
     public void pressRightButton(Coordinate coordinate) {
         flag.toggleFlagInCell(coordinate);
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
+    private void checkWinner() {
+        if (state == GameState.PLAYED) {
+            if (flag.getCountOfClosedMines() == mine.getTotalMines()) {
+                state = GameState.WINNER;
+            }
+        }
     }
 
     private void openCell(Coordinate coordinate) {
@@ -61,10 +74,6 @@ public class GameController {
                 }
             }
         }
-    }
-
-    public GameState getState() {
-        return state;
     }
 
     private void openCellsAround(Coordinate coordinate) {

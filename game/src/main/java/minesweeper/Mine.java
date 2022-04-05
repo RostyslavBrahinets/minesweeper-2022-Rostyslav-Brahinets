@@ -22,6 +22,10 @@ public class Mine {
         return mineMap.get(coordinate);
     }
 
+    int getTotalMines() {
+        return totalMines;
+    }
+
     private void fixMinesCount() {
         Optional<Coordinate> sizeOptional = Range.getSize();
         if (sizeOptional.isPresent()) {
