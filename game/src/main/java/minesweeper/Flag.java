@@ -40,15 +40,7 @@ public class Flag {
         return countOfClosedCells;
     }
 
-    private void setFlagToCell(Coordinate coordinate) {
-        flagMap.set(Cell.FLAG, coordinate);
-    }
-
-    private void setClosedToCell(Coordinate coordinate) {
-        flagMap.set(Cell.CLOSED, coordinate);
-    }
-
-    public void setOpenedToClosedMineCell(Coordinate coordinate) {
+    void setOpenedToClosedMineCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == Cell.CLOSED) {
@@ -57,12 +49,33 @@ public class Flag {
         }
     }
 
-    public void setNomineToFlagSafeCell(Coordinate coordinate) {
+    void setNomineToFlagSafeCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == Cell.FLAG) {
                 flagMap.set(Cell.NOMINE, coordinate);
             }
         }
+    }
+
+    int getCountOfFlagsAround(Coordinate coordinate) {
+        int count = 0;
+        for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
+            Optional<Cell> cell = flagMap.get(coordinateAround);
+            if (cell.isPresent()) {
+                if (cell.get() == Cell.FLAG) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private void setFlagToCell(Coordinate coordinate) {
+        flagMap.set(Cell.FLAG, coordinate);
+    }
+
+    private void setClosedToCell(Coordinate coordinate) {
+        flagMap.set(Cell.CLOSED, coordinate);
     }
 }

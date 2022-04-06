@@ -24,4 +24,8 @@ public enum Cell {
     Optional<Cell> getNextNumberCell() {
         return Optional.ofNullable(Cell.values()[this.ordinal() + 1]);
     }
+
+    public int getNumber() {
+        return this.ordinal();
+    }
 }

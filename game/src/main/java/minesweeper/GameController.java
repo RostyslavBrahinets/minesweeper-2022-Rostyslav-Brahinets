@@ -74,7 +74,10 @@ public class GameController {
             Cell flagCell = flagOptional.get();
             Cell mineCell = mineOptional.get();
 
-            if (flagCell == Cell.OPENED || flagCell == Cell.FLAG) {
+            if (flagCell == Cell.OPENED) {
+                setOpenedToClosedCellsAroundNumber(coordinate);
+                return;
+            } else if (flagCell == Cell.FLAG) {
                 return;
             } else if (flagCell == Cell.CLOSED) {
                 if (mineCell == Cell.EMPTY) {
@@ -109,6 +112,24 @@ public class GameController {
                     flag.setOpenedToClosedMineCell(coordinate);
                 } else {
                     flag.setNomineToFlagSafeCell(coordinate);
+                }
+            }
+        }
+    }
+
+    private void setOpenedToClosedCellsAroundNumber(Coordinate coordinate) {
+        Optional<Cell> cell = mine.get(coordinate);
+        if (cell.isPresent()) {
+            if (cell.get() != Cell.MINE) {
+                if (flag.getCountOfFlagsAround(coordinate) == cell.get().getNumber()) {
+                    for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
+                        Optional<Cell> cellAround = flag.get(coordinateAround);
+                        if (cellAround.isPresent()) {
+                            if (cellAround.get() == Cell.CLOSED) {
+                                openCell(coordinateAround);
+                            }
+                        }
+                    }
                 }
             }
         }
