@@ -1,4 +1,9 @@
-package minesweeper;
+package minesweeper.components;
+
+import minesweeper.enums.Cell;
+import minesweeper.utility.Coordinate;
+import minesweeper.utility.Matrix;
+import minesweeper.utility.Range;
 
 import java.util.Optional;
 
@@ -11,18 +16,18 @@ public class Mine {
         fixMinesCount();
     }
 
-    void start() {
+    public void start() {
         mineMap = new Matrix(Cell.EMPTY);
         for (int i = 0; i < totalMines; i++) {
             placeMine();
         }
     }
 
-    Optional<Cell> get(Coordinate coordinate) {
+    public Optional<Cell> get(Coordinate coordinate) {
         return mineMap.get(coordinate);
     }
 
-    int getTotalMines() {
+    public int getTotalMines() {
         return totalMines;
     }
 

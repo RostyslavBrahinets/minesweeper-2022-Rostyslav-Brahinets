@@ -1,4 +1,6 @@
-package minesweeper;
+package minesweeper.utility;
+
+import minesweeper.enums.Cell;
 
 import java.util.Optional;
 
@@ -16,7 +18,7 @@ public class Matrix {
         }
     }
 
-    Optional<Cell> get(Coordinate coordinate) {
+    public Optional<Cell> get(Coordinate coordinate) {
         Cell cell = null;
         if (Range.inRange(coordinate)) {
             cell = matrix[coordinate.x()][coordinate.y()];
@@ -24,7 +26,7 @@ public class Matrix {
         return Optional.ofNullable(cell);
     }
 
-    void set(Cell cell, Coordinate coordinate) {
+    public void set(Cell cell, Coordinate coordinate) {
         if (Range.inRange(coordinate)) {
             matrix[coordinate.x()][coordinate.y()] = cell;
         }

@@ -1,29 +1,34 @@
-package minesweeper;
+package minesweeper.components;
+
+import minesweeper.enums.Cell;
+import minesweeper.utility.Coordinate;
+import minesweeper.utility.Matrix;
+import minesweeper.utility.Range;
 
 import java.util.Optional;
 
-import static minesweeper.Cell.*;
+import static minesweeper.enums.Cell.*;
 
 public class Flag {
     private Matrix flagMap;
     private int countOfClosedCells;
 
-    void start() {
+    public void start() {
         flagMap = new Matrix(CLOSED);
         Optional<Coordinate> size = Range.getSize();
         size.ifPresent(coordinate -> countOfClosedCells = coordinate.x() * coordinate.y());
     }
 
-    Optional<Cell> get(Coordinate coordinate) {
+    public Optional<Cell> get(Coordinate coordinate) {
         return flagMap.get(coordinate);
     }
 
-    void setOpenedToCell(Coordinate coordinate) {
+    public void setOpenedToCell(Coordinate coordinate) {
         flagMap.set(Cell.OPENED, coordinate);
         countOfClosedCells--;
     }
 
-    void toggleFlagInCell(Coordinate coordinate) {
+    public void toggleFlagInCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == CLOSED) {
@@ -36,11 +41,11 @@ public class Flag {
         }
     }
 
-    void setFailToCell(Coordinate coordinate) {
+    public void setFailToCell(Coordinate coordinate) {
         flagMap.set(Cell.FAIL, coordinate);
     }
 
-    void setOpenedToClosedMineCell(Coordinate coordinate) {
+    public void setOpenedToClosedMineCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == CLOSED) {
@@ -49,7 +54,7 @@ public class Flag {
         }
     }
 
-    void setNomineToFlagSafeCell(Coordinate coordinate) {
+    public void setNomineToFlagSafeCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == FLAG) {
@@ -58,11 +63,11 @@ public class Flag {
         }
     }
 
-    int getCountOfClosedCells() {
+    public int getCountOfClosedCells() {
         return countOfClosedCells;
     }
 
-    int getCountOfFlagsAround(Coordinate coordinate) {
+    public int getCountOfFlagsAround(Coordinate coordinate) {
         int count = 0;
         for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
             Optional<Cell> cell = flagMap.get(coordinateAround);

@@ -1,4 +1,4 @@
-package minesweeper;
+package minesweeper.utility;
 
 public record Coordinate(int x, int y) {
     @Override

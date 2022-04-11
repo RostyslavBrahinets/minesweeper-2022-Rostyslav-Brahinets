@@ -1,4 +1,4 @@
-package minesweeper;
+package minesweeper.enums;
 
 public enum GameState {
     PLAYED,

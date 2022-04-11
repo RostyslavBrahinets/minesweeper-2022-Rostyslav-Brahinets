@@ -1,4 +1,11 @@
-package minesweeper;
+package minesweeper.game;
+
+import minesweeper.utility.Coordinate;
+import minesweeper.utility.Range;
+import minesweeper.components.Flag;
+import minesweeper.components.Mine;
+import minesweeper.enums.Cell;
+import minesweeper.enums.GameState;
 
 import java.util.Optional;
 
@@ -91,7 +98,7 @@ public class GameController {
         if (state == GameState.PLAYED) {
             if (flag.getCountOfClosedCells() == mine.getTotalMines()) {
                 state = GameState.WINNER;
-                countOfMines--;
+                countOfMines = 0;
             }
         }
     }

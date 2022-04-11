@@ -1,9 +1,9 @@
 package minesweeper.panels;
 
-import minesweeper.Cell;
-import minesweeper.Coordinate;
-import minesweeper.GameController;
-import minesweeper.Range;
+import minesweeper.enums.Cell;
+import minesweeper.utility.Coordinate;
+import minesweeper.game.GameController;
+import minesweeper.utility.Range;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +11,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Optional;
 
-import static minesweeper.GameState.FAILED;
-import static minesweeper.GameState.WINNER;
+import static minesweeper.enums.GameState.FAILED;
+import static minesweeper.enums.GameState.WINNER;
 
 public class MainPanel extends JPanel {
     private final GameController gameController;

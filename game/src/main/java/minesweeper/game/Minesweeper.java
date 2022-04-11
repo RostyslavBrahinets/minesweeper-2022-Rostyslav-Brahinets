@@ -1,5 +1,6 @@
-package minesweeper;
+package minesweeper.game;
 
+import minesweeper.enums.Cell;
 import minesweeper.panels.InfoPanel;
 import minesweeper.panels.MainPanel;
 

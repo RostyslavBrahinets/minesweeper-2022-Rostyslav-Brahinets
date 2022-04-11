@@ -1,4 +1,4 @@
-package minesweeper;
+package minesweeper.enums;
 
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ public enum Cell {
 
     public Object image;
 
-    Optional<Cell> getNextNumberCell() {
+    public Optional<Cell> getNextNumberCell() {
         return Optional.ofNullable(Cell.values()[this.ordinal() + 1]);
     }
 
