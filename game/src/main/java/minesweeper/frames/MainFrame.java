@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
         setVisible(true);
         pack();
         setLocationRelativeTo(null);
-        Optional<Image> icon = ImageUtility.getImage("icon");
+        Optional<Image> icon = ImageUtility.getImage("icon", "");
         icon.ifPresent(this::setIconImage);
     }
 
