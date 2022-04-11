@@ -1,5 +1,6 @@
-package minesweeper.game;
+package minesweeper.frames;
 
+import minesweeper.controllers.GameController;
 import minesweeper.panels.InfoPanel;
 import minesweeper.panels.MainPanel;
 import minesweeper.utility.ImageUtility;
@@ -8,13 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Optional;
 
-public class GameFrame extends JFrame {
+public class MainFrame extends JFrame {
     private final int mines;
     private final int cellSize;
     private final GameController gameController;
     private InfoPanel infoPanel;
 
-    public GameFrame(int mines, int cellSize, GameController gameController) {
+    public MainFrame(int mines, int cellSize, GameController gameController) {
         this.mines = mines;
         this.cellSize = cellSize;
         this.gameController = gameController;

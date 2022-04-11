@@ -15,6 +15,7 @@ public class InfoPanel extends JPanel {
         setLayout(new BorderLayout());
         SwingUtilities.invokeLater(this::initTimer);
         initCounter(mines);
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
     public JLabel getCounterLabel() {

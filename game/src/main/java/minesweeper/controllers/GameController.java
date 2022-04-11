@@ -1,4 +1,4 @@
-package minesweeper.game;
+package minesweeper.controllers;
 
 import minesweeper.components.Flag;
 import minesweeper.components.Mine;

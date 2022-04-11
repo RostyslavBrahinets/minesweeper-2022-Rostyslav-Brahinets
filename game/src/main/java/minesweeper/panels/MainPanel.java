@@ -2,7 +2,7 @@ package minesweeper.panels;
 
 import minesweeper.enums.Cell;
 import minesweeper.utility.CoordinateUtility;
-import minesweeper.game.GameController;
+import minesweeper.controllers.GameController;
 import minesweeper.utility.RangeUtility;
 
 import javax.swing.*;
