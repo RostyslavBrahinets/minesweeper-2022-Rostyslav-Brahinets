@@ -53,9 +53,10 @@ public class MainPanel extends JPanel {
                 CoordinateUtility coordinate = new CoordinateUtility(x, y);
 
                 checkClick(e, coordinate);
-                infoPanel.getCounterLabel().setText(
+                Optional<JLabel> counterLabel = infoPanel.getCounterLabel();
+                counterLabel.ifPresent(label -> label.setText(
                     gameController.getCountOfMines() + " mines left"
-                );
+                ));
                 repaint();
                 checkStateOfGame();
             }
@@ -89,12 +90,15 @@ public class MainPanel extends JPanel {
     }
 
     private void checkStateOfGame() {
-        if (gameController.getState() == FAILED) {
-            showMessage("Sorry! You died!");
-            infoPanel.getTimer().stop();
-        } else if (gameController.getState() == WINNER) {
-            showMessage("Wow! You did it!");
-            infoPanel.getTimer().stop();
+        Optional<Timer> timer = infoPanel.getTimer();
+        if (timer.isPresent()) {
+            if (gameController.getState() == FAILED) {
+                showMessage("Sorry! You died!");
+                timer.get().stop();
+            } else if (gameController.getState() == WINNER) {
+                showMessage("Wow! You did it!");
+                timer.get().stop();
+            }
         }
     }
 
@@ -111,9 +115,17 @@ public class MainPanel extends JPanel {
         button.addActionListener(clicked -> {
             dialog.setVisible(false);
             gameController.start();
-            infoPanel.getCounterLabel().setText(gameController.getCountOfMines() + " mines left");
-            infoPanel.getTimeLabel().setText("Time: 0");
-            infoPanel.getTimer().restart();
+
+            Optional<JLabel> timeLabel = infoPanel.getTimeLabel();
+            Optional<JLabel> counterLabel = infoPanel.getCounterLabel();
+            Optional<Timer> timer = infoPanel.getTimer();
+
+            timeLabel.ifPresent(label -> label.setText("Time: 0"));
+            counterLabel.ifPresent(label -> label.setText(
+                gameController.getCountOfMines() + " mines left"
+            ));
+            timer.ifPresent(Timer::restart);
+
             infoPanel.setTime(0);
             repaint();
         });

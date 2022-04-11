@@ -74,17 +74,20 @@ public class StartFrame extends JPanel implements ActionListener {
         String advanced = "Advanced (99 mines; 16x30 tile grid)";
 
         List<JRadioButton> radioButtons = new ArrayList<>();
-        radioButtons.add(getRadioButton(beginner, Level.BEGINNER, font, true));
-        radioButtons.add(getRadioButton(intermediate, Level.INTERMEDIATE, font, false));
-        radioButtons.add(getRadioButton(advanced, Level.ADVANCED, font, false));
+        Optional<JRadioButton> radioButton = getRadioButton(beginner, Level.BEGINNER, font, true);
+        radioButton.ifPresent(radioButtons::add);
+        radioButton = getRadioButton(intermediate, Level.INTERMEDIATE, font, false);
+        radioButton.ifPresent(radioButtons::add);
+        radioButton = getRadioButton(advanced, Level.ADVANCED, font, false);
+        radioButton.ifPresent(radioButtons::add);
 
         ButtonGroup group = new ButtonGroup();
         JPanel radioPanel = new JPanel(new GridLayout(0, 1));
 
-        for (JRadioButton radioButton : radioButtons) {
-            group.add(radioButton);
-            radioButton.addActionListener(this);
-            radioPanel.add(radioButton);
+        for (JRadioButton button : radioButtons) {
+            group.add(button);
+            button.addActionListener(this);
+            radioPanel.add(button);
         }
 
         add(radioPanel, BorderLayout.CENTER);
@@ -101,12 +104,12 @@ public class StartFrame extends JPanel implements ActionListener {
         add(panel, BorderLayout.SOUTH);
     }
 
-    private JRadioButton getRadioButton(String text, Level level, Font font, boolean selected) {
+    private Optional<JRadioButton> getRadioButton(String text, Level level, Font font, boolean selected) {
         JRadioButton radioButton = new JRadioButton(text);
         radioButton.setActionCommand(String.valueOf(level));
         radioButton.setFont(font);
         radioButton.setSelected(selected);
-        return radioButton;
+        return Optional.of(radioButton);
     }
 
     private void setParametersForLevel(Level level) {

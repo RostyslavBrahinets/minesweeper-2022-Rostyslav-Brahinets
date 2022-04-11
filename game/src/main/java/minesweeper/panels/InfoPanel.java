@@ -2,6 +2,7 @@ package minesweeper.panels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Optional;
 
 public class InfoPanel extends JPanel {
     private final Font font;
@@ -18,16 +19,16 @@ public class InfoPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
-    public JLabel getCounterLabel() {
-        return counterLabel;
+    public Optional<JLabel> getCounterLabel() {
+        return Optional.ofNullable(counterLabel);
     }
 
-    public JLabel getTimeLabel() {
-        return timeLabel;
+    public Optional<JLabel> getTimeLabel() {
+        return Optional.ofNullable(timeLabel);
     }
 
-    public Timer getTimer() {
-        return timer;
+    public Optional<Timer> getTimer() {
+        return Optional.ofNullable(timer);
     }
 
     public void setTime(int time) {
@@ -35,15 +36,19 @@ public class InfoPanel extends JPanel {
     }
 
     private void initTimer() {
-        timeLabel = new JLabel(getTimeMessage(0));
+        Optional<String> messageOptional = getTimeMessage(0);
+        messageOptional.ifPresent(message -> timeLabel = new JLabel(message));
         timeLabel.setFont(font);
         add(timeLabel, BorderLayout.WEST);
-        timer = new Timer(1000, e -> timeLabel.setText(getTimeMessage(++time)));
+        messageOptional = getTimeMessage(++time);
+        messageOptional.ifPresent(message -> timer = new Timer(
+            1000, e -> timeLabel.setText(message)
+        ));
         timer.start();
     }
 
-    private String getTimeMessage(int time) {
-        return "Time: " + time;
+    private Optional<String> getTimeMessage(int time) {
+        return Optional.of("Time: " + time);
     }
 
     private void initCounter(int mines) {
