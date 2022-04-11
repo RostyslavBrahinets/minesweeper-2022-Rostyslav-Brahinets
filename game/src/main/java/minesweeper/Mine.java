@@ -3,8 +3,8 @@ package minesweeper;
 import java.util.Optional;
 
 public class Mine {
-    private int totalMines;
     private Matrix mineMap;
+    private int totalMines;
 
     public Mine(int totalMines) {
         this.totalMines = totalMines;
@@ -42,12 +42,14 @@ public class Mine {
             Optional<Coordinate> coordinateOptional = Range.getRandomCoordinate();
             if (coordinateOptional.isPresent()) {
                 Coordinate coordinate = coordinateOptional.get();
+
                 Optional<Cell> mine = mineMap.get(coordinate);
                 if (mine.isPresent()) {
                     if (Cell.MINE == mine.get()) {
                         continue;
                     }
                 }
+
                 mineMap.set(Cell.MINE, coordinate);
                 incrementNumbersAroundMine(coordinate);
                 break;
