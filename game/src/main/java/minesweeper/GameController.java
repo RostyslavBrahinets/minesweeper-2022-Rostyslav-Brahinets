@@ -29,11 +29,19 @@ public class GameController {
         return flag.get(coordinate);
     }
 
+    public void doubleClickLeftButton(Coordinate coordinate) {
+        Optional<Cell> cell = flag.get(coordinate);
+        if (cell.isPresent()) {
+            if (cell.get() == Cell.OPENED) {
+                setOpenedToClosedCellsAroundNumber(coordinate);
+            }
+        }
+    }
+
     public void pressLeftButton(Coordinate coordinate) {
         if (gameOver()) {
             return;
         }
-
         openCell(coordinate);
         checkWinner();
     }
@@ -42,7 +50,6 @@ public class GameController {
         if (gameOver()) {
             return;
         }
-
         flag.toggleFlagInCell(coordinate);
     }
 
@@ -74,10 +81,7 @@ public class GameController {
             Cell flagCell = flagOptional.get();
             Cell mineCell = mineOptional.get();
 
-            if (flagCell == Cell.OPENED) {
-                setOpenedToClosedCellsAroundNumber(coordinate);
-                return;
-            } else if (flagCell == Cell.FLAG) {
+            if (flagCell == Cell.OPENED || flagCell == Cell.FLAG) {
                 return;
             } else if (flagCell == Cell.CLOSED) {
                 if (mineCell == Cell.EMPTY) {

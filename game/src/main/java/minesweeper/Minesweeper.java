@@ -59,7 +59,9 @@ public class Minesweeper extends JFrame {
                 int y = e.getY() / CELL_SIZE;
                 Coordinate coordinate = new Coordinate(x, y);
 
-                if (e.getButton() == MouseEvent.BUTTON1) {
+                if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+                    gameController.doubleClickLeftButton(coordinate);
+                } else if (e.getButton() == MouseEvent.BUTTON1) {
                     gameController.pressLeftButton(coordinate);
                 } else if (e.getButton() == MouseEvent.BUTTON3) {
                     gameController.pressRightButton(coordinate);
