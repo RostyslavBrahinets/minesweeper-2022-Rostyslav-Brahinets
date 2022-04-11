@@ -36,6 +36,7 @@ public class GameController {
                 setOpenedToClosedCellsAroundNumber(coordinate);
             }
         }
+        checkWinner();
     }
 
     public void pressLeftButton(Coordinate coordinate) {
