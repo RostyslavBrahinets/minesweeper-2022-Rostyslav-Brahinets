@@ -31,6 +31,11 @@ public class Mine {
         return totalMines;
     }
 
+    public void resetMine(CoordinateUtility coordinate) {
+        placeMine();
+        mineMap.set(Cell.EMPTY, coordinate);
+    }
+
     private void fixMinesCount() {
         Optional<CoordinateUtility> sizeOptional = RangeUtility.getSize();
         if (sizeOptional.isPresent()) {

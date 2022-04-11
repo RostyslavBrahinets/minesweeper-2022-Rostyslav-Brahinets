@@ -1,11 +1,11 @@
 package minesweeper.game;
 
-import minesweeper.utility.CoordinateUtility;
-import minesweeper.utility.RangeUtility;
 import minesweeper.components.Flag;
 import minesweeper.components.Mine;
 import minesweeper.enums.Cell;
 import minesweeper.enums.GameState;
+import minesweeper.utility.CoordinateUtility;
+import minesweeper.utility.RangeUtility;
 
 import java.util.Optional;
 
@@ -14,11 +14,13 @@ public class GameController {
     private final Flag flag;
     private GameState state;
     private int countOfMines;
+    private boolean firstCell;
 
     public GameController(int columns, int rows, int mines) {
         RangeUtility.setSize(new CoordinateUtility(columns, rows));
         mine = new Mine(mines);
         flag = new Flag();
+        firstCell = true;
     }
 
     public void start() {
@@ -115,6 +117,10 @@ public class GameController {
                 if (mineCell == Cell.EMPTY) {
                     openCellsAround(coordinate);
                 } else if (mineCell == Cell.MINE) {
+                    if (firstCell) {
+                        openFirstCell(coordinate);
+                        firstCell = false;
+                    }
                     countOfMines--;
                     openMines(coordinate);
                 } else {
@@ -122,6 +128,11 @@ public class GameController {
                 }
             }
         }
+    }
+
+    private void openFirstCell(CoordinateUtility coordinate) {
+        flag.setOpenedToCell(coordinate);
+        mine.resetMine(coordinate);
     }
 
     private void openCellsAround(CoordinateUtility coordinate) {
@@ -155,7 +166,10 @@ public class GameController {
         if (cell.isPresent()) {
             if (cell.get() != Cell.MINE) {
                 if (flag.getCountOfFlagsAround(coordinate) == cell.get().getNumber()) {
-                    for (CoordinateUtility coordinateAround : RangeUtility.getCoordinatesAround(coordinate)) {
+                    for (
+                        CoordinateUtility coordinateAround :
+                        RangeUtility.getCoordinatesAround(coordinate)
+                    ) {
                         Optional<Cell> cellAround = flag.get(coordinateAround);
 
                         if (cellAround.isPresent()) {
