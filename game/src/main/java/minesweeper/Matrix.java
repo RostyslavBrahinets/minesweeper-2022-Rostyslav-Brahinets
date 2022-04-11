@@ -6,9 +6,9 @@ public class Matrix {
     private Cell[][] matrix;
 
     public Matrix(Cell defaultCell) {
-        Optional<Coordinate> sizeOptional = Range.getSize();
-        if (sizeOptional.isPresent()) {
-            matrix = new Cell[sizeOptional.get().x()][sizeOptional.get().y()];
+        Optional<Coordinate> size = Range.getSize();
+        if (size.isPresent()) {
+            matrix = new Cell[size.get().x()][size.get().y()];
 
             for (Coordinate coordinate : Range.getCoordinates()) {
                 matrix[coordinate.x()][coordinate.y()] = defaultCell;
