@@ -99,7 +99,7 @@ public class GameController {
 
             if (flagCell == Cell.OPENED || flagCell == Cell.FLAG) {
                 return;
-            } else if (flagCell == Cell.CLOSED) {
+            } else if (flagCell == Cell.CLOSED || flagCell == Cell.QUESTION) {
                 if (mineCell == Cell.EMPTY) {
                     openCellsAround(coordinate);
                     return;
