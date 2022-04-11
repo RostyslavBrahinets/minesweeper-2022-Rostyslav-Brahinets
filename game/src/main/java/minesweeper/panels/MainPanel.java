@@ -111,6 +111,18 @@ public class MainPanel extends JPanel {
         dialog.setResizable(false);
         dialog.setLocationRelativeTo(null);
 
+        JLabel label = new JLabel(message);
+        Font font = new Font("Arial", Font.PLAIN, 36);
+        label.setFont(font);
+
+        Optional<JButton> buttonOptional = getButtonNewGame(dialog);
+
+        dialog.add(label);
+        buttonOptional.ifPresent(dialog::add);
+        dialog.setVisible(true);
+    }
+
+    private Optional<JButton> getButtonNewGame(JDialog dialog) {
         JButton button = new JButton("New Game");
         button.addActionListener(clicked -> {
             dialog.setVisible(false);
@@ -130,12 +142,6 @@ public class MainPanel extends JPanel {
             repaint();
         });
 
-        JLabel label = new JLabel(message);
-        Font font = new Font("Arial", Font.PLAIN, 36);
-        label.setFont(font);
-
-        dialog.add(label);
-        dialog.add(button);
-        dialog.setVisible(true);
+        return Optional.of(button);
     }
 }
