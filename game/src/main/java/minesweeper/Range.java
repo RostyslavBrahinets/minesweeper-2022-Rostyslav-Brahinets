@@ -10,14 +10,14 @@ public class Range {
     private static Coordinate size;
     private static List<Coordinate> coordinates;
 
-    public static Optional<Coordinate> getSize() {
+    static Optional<Coordinate> getSize() {
         return Optional.ofNullable(size);
     }
 
     static void setSize(Coordinate newSize) {
         size = newSize;
-
         coordinates = new ArrayList<>();
+
         for (int y = 0; y < size.y(); y++) {
             for (int x = 0; x < size.x(); x++) {
                 coordinates.add(new Coordinate(x, y));
@@ -25,7 +25,7 @@ public class Range {
         }
     }
 
-    public static List<Coordinate> getCoordinates() {
+    static List<Coordinate> getCoordinates() {
         return coordinates;
     }
 
