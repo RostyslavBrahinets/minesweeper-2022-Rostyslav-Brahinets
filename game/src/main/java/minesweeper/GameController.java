@@ -23,29 +23,34 @@ public class GameController {
 
     public Optional<Cell> getCell(Coordinate coordinate) {
         Optional<Cell> cell = flag.get(coordinate);
+
         if (cell.isPresent()) {
             if (cell.get() == Cell.OPENED) {
                 return mine.get(coordinate);
             }
         }
-        return flag.get(coordinate);
-    }
 
-    public void doubleClickLeftButton(Coordinate coordinate) {
-        Optional<Cell> cell = flag.get(coordinate);
-        if (cell.isPresent()) {
-            if (cell.get() == Cell.OPENED) {
-                setOpenedToClosedCellsAroundNumber(coordinate);
-            }
-        }
-        checkWinner();
+        return flag.get(coordinate);
     }
 
     public void pressLeftButton(Coordinate coordinate) {
         if (gameOver()) {
             return;
         }
+
         openCell(coordinate);
+        checkWinner();
+    }
+
+    public void doubleClickLeftButton(Coordinate coordinate) {
+        Optional<Cell> cell = flag.get(coordinate);
+
+        if (cell.isPresent()) {
+            if (cell.get() == Cell.OPENED) {
+                setOpenedToClosedCellsAroundNumber(coordinate);
+            }
+        }
+
         checkWinner();
     }
 
@@ -53,6 +58,7 @@ public class GameController {
         if (gameOver()) {
             return;
         }
+
         flag.toggleFlagInCell(coordinate);
 
         Optional<Cell> cell = getCell(coordinate);
@@ -85,31 +91,27 @@ public class GameController {
         if (state == GameState.PLAYED) {
             if (flag.getCountOfClosedCells() == mine.getTotalMines()) {
                 state = GameState.WINNER;
+                countOfMines--;
             }
         }
     }
 
     private void openCell(Coordinate coordinate) {
-        Optional<Cell> flagOptional = flag.get(coordinate);
+        Optional<Cell> cellOptional = flag.get(coordinate);
         Optional<Cell> mineOptional = mine.get(coordinate);
 
-        if (flagOptional.isPresent() && mineOptional.isPresent()) {
-            Cell flagCell = flagOptional.get();
+        if (cellOptional.isPresent() && mineOptional.isPresent()) {
+            Cell cell = cellOptional.get();
             Cell mineCell = mineOptional.get();
 
-            if (flagCell == Cell.OPENED || flagCell == Cell.FLAG) {
-                return;
-            } else if (flagCell == Cell.CLOSED || flagCell == Cell.QUESTION) {
+            if (cell == Cell.CLOSED || cell == Cell.QUESTION) {
                 if (mineCell == Cell.EMPTY) {
                     openCellsAround(coordinate);
-                    return;
                 } else if (mineCell == Cell.MINE) {
                     countOfMines--;
                     openMines(coordinate);
-                    return;
                 } else {
                     flag.setOpenedToCell(coordinate);
-                    return;
                 }
             }
         }
@@ -117,6 +119,7 @@ public class GameController {
 
     private void openCellsAround(Coordinate coordinate) {
         flag.setOpenedToCell(coordinate);
+
         for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
             openCell(coordinateAround);
         }
@@ -127,9 +130,10 @@ public class GameController {
         flag.setFailToCell(coordinateWithMine);
 
         for (Coordinate coordinate : Range.getCoordinates()) {
-            Optional<Cell> mine = this.mine.get(coordinate);
-            if (mine.isPresent()) {
-                if (mine.get() == Cell.MINE) {
+            Optional<Cell> cell = mine.get(coordinate);
+
+            if (cell.isPresent()) {
+                if (cell.get() == Cell.MINE) {
                     flag.setOpenedToClosedMineCell(coordinate);
                 } else {
                     flag.setNomineToFlagSafeCell(coordinate);
@@ -140,13 +144,16 @@ public class GameController {
 
     private void setOpenedToClosedCellsAroundNumber(Coordinate coordinate) {
         Optional<Cell> cell = mine.get(coordinate);
+
         if (cell.isPresent()) {
             if (cell.get() != Cell.MINE) {
                 if (flag.getCountOfFlagsAround(coordinate) == cell.get().getNumber()) {
                     for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
                         Optional<Cell> cellAround = flag.get(coordinateAround);
+
                         if (cellAround.isPresent()) {
-                            if (cellAround.get() == Cell.CLOSED) {
+                            if (cellAround.get() == Cell.CLOSED
+                                || cellAround.get() == Cell.QUESTION) {
                                 openCell(coordinateAround);
                             }
                         }
