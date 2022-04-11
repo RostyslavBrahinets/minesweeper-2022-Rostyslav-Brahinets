@@ -16,7 +16,11 @@ public class Minesweeper extends JFrame {
     private final int CELL_SIZE = 50;
     private final int MINES = 10;
     private final GameController gameController;
-    private JLabel label;
+    private JLabel counter;
+    private JLabel time;
+    private int seconds = 0;
+    private Timer timer;
+    private JPanel infoPanel;
     private JPanel panel;
 
     public Minesweeper() {
@@ -26,20 +30,31 @@ public class Minesweeper extends JFrame {
     public void start() {
         gameController.start();
         setImages();
+        initInfoPanel();
+        SwingUtilities.invokeLater(this::initTimer);
         initCounter();
         initPanel();
         initFrame();
     }
 
+    private void initInfoPanel() {
+        infoPanel = new JPanel(new BorderLayout());
+        add(infoPanel, BorderLayout.NORTH);
+    }
+
     private void initCounter() {
         String count = MINES + " mines left";
-        label = new JLabel(count);
-        label.setFont(new Font("Arial", Font.PLAIN, 50));
-        label.setSize(new Dimension());
+        counter = new JLabel(count);
+        counter.setFont(new Font("Arial", Font.PLAIN, 36));
+        infoPanel.add(counter, BorderLayout.EAST);
+    }
 
-        panel = new JPanel();
-        panel.add(label);
-        add(panel, BorderLayout.NORTH);
+    private void initTimer() {
+        time = new JLabel("Time: 0");
+        time.setFont(new Font("Arial", Font.PLAIN, 36));
+        infoPanel.add(time, BorderLayout.WEST);
+        timer = new Timer(1000, e -> time.setText("Time: " + ++seconds));
+        timer.start();
     }
 
     private void initPanel() {
@@ -78,14 +93,15 @@ public class Minesweeper extends JFrame {
                     gameController.start();
                 }
 
-                label.setText(gameController.getCountOfMines() + " mines left");
-
+                counter.setText(gameController.getCountOfMines() + " mines left");
                 panel.repaint();
 
                 if (gameController.getState() == FAILED) {
                     showMessage("Sorry! You died!", panel);
+                    timer.stop();
                 } else if (gameController.getState() == WINNER) {
                     showMessage("Wow! You did it!", panel);
+                    timer.stop();
                 }
             }
         });
@@ -132,7 +148,7 @@ public class Minesweeper extends JFrame {
 
         JDialog dialog = new JDialog(frame);
         dialog.setLayout(new FlowLayout());
-        dialog.setSize(new Dimension(200, 100));
+        dialog.setSize(new Dimension(325, 125));
         dialog.setResizable(false);
         dialog.setLocationRelativeTo(null);
 
@@ -140,11 +156,15 @@ public class Minesweeper extends JFrame {
         button.addActionListener(clicked -> {
             dialog.setVisible(false);
             gameController.start();
-            label.setText(gameController.getCountOfMines() + " mines left");
+            counter.setText(gameController.getCountOfMines() + " mines left");
+            time.setText("Time: 0");
+            seconds = 0;
+            timer.restart();
             panel.repaint();
         });
 
         JLabel label = new JLabel(message);
+        label.setFont(new Font("Arial", Font.PLAIN, 36));
 
         dialog.add(label);
         dialog.add(button);
