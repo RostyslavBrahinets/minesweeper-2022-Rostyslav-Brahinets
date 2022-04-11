@@ -36,19 +36,13 @@ public class InfoPanel extends JPanel {
     }
 
     private void initTimer() {
-        Optional<String> messageOptional = getTimeMessage(0);
-        messageOptional.ifPresent(message -> timeLabel = new JLabel(message));
+        timeLabel = new JLabel("Time: " + time);
         timeLabel.setFont(font);
         add(timeLabel, BorderLayout.WEST);
-        messageOptional = getTimeMessage(++time);
-        messageOptional.ifPresent(message -> timer = new Timer(
-            1000, e -> timeLabel.setText(message)
-        ));
+        timer = new Timer(
+            1000, e -> timeLabel.setText("Time: " + ++time)
+        );
         timer.start();
-    }
-
-    private Optional<String> getTimeMessage(int time) {
-        return Optional.of("Time: " + time);
     }
 
     private void initCounter(int mines) {
