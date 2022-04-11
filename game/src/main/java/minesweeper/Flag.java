@@ -26,7 +26,8 @@ public class Flag {
         if (cell.isPresent()) {
             switch (cell.get()) {
                 case CLOSED -> setFlagToCell(coordinate);
-                case FLAG -> setClosedToCell(coordinate);
+                case FLAG -> setQuestionToCell(coordinate);
+                case QUESTION -> setClosedToCell(coordinate);
             }
         }
 
@@ -73,6 +74,10 @@ public class Flag {
 
     private void setFlagToCell(Coordinate coordinate) {
         flagMap.set(Cell.FLAG, coordinate);
+    }
+
+    public void setQuestionToCell(Coordinate coordinate) {
+        flagMap.set(Cell.QUESTION, coordinate);
     }
 
     private void setClosedToCell(Coordinate coordinate) {

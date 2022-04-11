@@ -17,7 +17,8 @@ public enum Cell {
     CLOSED,
     FLAG,
     FAIL,
-    NOMINE;
+    NOMINE,
+    QUESTION;
 
     public Object image;
 
