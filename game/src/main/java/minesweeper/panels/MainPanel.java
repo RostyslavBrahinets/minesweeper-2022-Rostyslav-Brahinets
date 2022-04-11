@@ -1,9 +1,9 @@
 package minesweeper.panels;
 
 import minesweeper.enums.Cell;
-import minesweeper.utility.Coordinate;
+import minesweeper.utility.CoordinateUtility;
 import minesweeper.game.GameController;
-import minesweeper.utility.Range;
+import minesweeper.utility.RangeUtility;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +35,7 @@ public class MainPanel extends JPanel {
     private void initPanel() {
         addListener();
 
-        Optional<Coordinate> sizeOptional = Range.getSize();
+        Optional<CoordinateUtility> sizeOptional = RangeUtility.getSize();
         sizeOptional.ifPresent(size -> setPreferredSize(
             new Dimension(
                 size.x() * cellSize,
@@ -50,7 +50,7 @@ public class MainPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 int x = e.getX() / cellSize;
                 int y = e.getY() / cellSize;
-                Coordinate coordinate = new Coordinate(x, y);
+                CoordinateUtility coordinate = new CoordinateUtility(x, y);
 
                 checkClick(e, coordinate);
                 infoPanel.getCounterLabel().setText(
@@ -63,7 +63,7 @@ public class MainPanel extends JPanel {
     }
 
     private void paintCells(Graphics g) {
-        for (Coordinate coordinate : Range.getCoordinates()) {
+        for (CoordinateUtility coordinate : RangeUtility.getCoordinates()) {
             Optional<Cell> cellOptional = gameController.getCell(coordinate);
             cellOptional.ifPresent(
                 cell -> g.drawImage(
@@ -76,7 +76,7 @@ public class MainPanel extends JPanel {
         }
     }
 
-    private void checkClick(MouseEvent e, Coordinate coordinate) {
+    private void checkClick(MouseEvent e, CoordinateUtility coordinate) {
         if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
             gameController.doubleClickLeftButton(coordinate);
         } else if (e.getButton() == MouseEvent.BUTTON1) {

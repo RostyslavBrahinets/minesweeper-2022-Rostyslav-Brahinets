@@ -4,30 +4,30 @@ import minesweeper.enums.Cell;
 
 import java.util.Optional;
 
-public class Matrix {
+public class MatrixUtility {
     private Cell[][] matrix;
 
-    public Matrix(Cell defaultCell) {
-        Optional<Coordinate> size = Range.getSize();
+    public MatrixUtility(Cell defaultCell) {
+        Optional<CoordinateUtility> size = RangeUtility.getSize();
         if (size.isPresent()) {
             matrix = new Cell[size.get().x()][size.get().y()];
 
-            for (Coordinate coordinate : Range.getCoordinates()) {
+            for (CoordinateUtility coordinate : RangeUtility.getCoordinates()) {
                 matrix[coordinate.x()][coordinate.y()] = defaultCell;
             }
         }
     }
 
-    public Optional<Cell> get(Coordinate coordinate) {
+    public Optional<Cell> get(CoordinateUtility coordinate) {
         Cell cell = null;
-        if (Range.inRange(coordinate)) {
+        if (RangeUtility.inRange(coordinate)) {
             cell = matrix[coordinate.x()][coordinate.y()];
         }
         return Optional.ofNullable(cell);
     }
 
-    public void set(Cell cell, Coordinate coordinate) {
-        if (Range.inRange(coordinate)) {
+    public void set(Cell cell, CoordinateUtility coordinate) {
+        if (RangeUtility.inRange(coordinate)) {
             matrix[coordinate.x()][coordinate.y()] = cell;
         }
     }

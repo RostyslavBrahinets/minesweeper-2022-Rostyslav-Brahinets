@@ -1,34 +1,34 @@
 package minesweeper.components;
 
 import minesweeper.enums.Cell;
-import minesweeper.utility.Coordinate;
-import minesweeper.utility.Matrix;
-import minesweeper.utility.Range;
+import minesweeper.utility.CoordinateUtility;
+import minesweeper.utility.MatrixUtility;
+import minesweeper.utility.RangeUtility;
 
 import java.util.Optional;
 
 import static minesweeper.enums.Cell.*;
 
 public class Flag {
-    private Matrix flagMap;
+    private MatrixUtility flagMap;
     private int countOfClosedCells;
 
     public void start() {
-        flagMap = new Matrix(CLOSED);
-        Optional<Coordinate> size = Range.getSize();
+        flagMap = new MatrixUtility(CLOSED);
+        Optional<CoordinateUtility> size = RangeUtility.getSize();
         size.ifPresent(coordinate -> countOfClosedCells = coordinate.x() * coordinate.y());
     }
 
-    public Optional<Cell> get(Coordinate coordinate) {
+    public Optional<Cell> get(CoordinateUtility coordinate) {
         return flagMap.get(coordinate);
     }
 
-    public void setOpenedToCell(Coordinate coordinate) {
+    public void setOpenedToCell(CoordinateUtility coordinate) {
         flagMap.set(Cell.OPENED, coordinate);
         countOfClosedCells--;
     }
 
-    public void toggleFlagInCell(Coordinate coordinate) {
+    public void toggleFlagInCell(CoordinateUtility coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == CLOSED) {
@@ -41,11 +41,11 @@ public class Flag {
         }
     }
 
-    public void setFailToCell(Coordinate coordinate) {
+    public void setFailToCell(CoordinateUtility coordinate) {
         flagMap.set(Cell.FAIL, coordinate);
     }
 
-    public void setOpenedToClosedMineCell(Coordinate coordinate) {
+    public void setOpenedToClosedMineCell(CoordinateUtility coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == CLOSED) {
@@ -54,7 +54,7 @@ public class Flag {
         }
     }
 
-    public void setNomineToFlagSafeCell(Coordinate coordinate) {
+    public void setNomineToFlagSafeCell(CoordinateUtility coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
             if (cell.get() == FLAG) {
@@ -67,9 +67,9 @@ public class Flag {
         return countOfClosedCells;
     }
 
-    public int getCountOfFlagsAround(Coordinate coordinate) {
+    public int getCountOfFlagsAround(CoordinateUtility coordinate) {
         int count = 0;
-        for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
+        for (CoordinateUtility coordinateAround : RangeUtility.getCoordinatesAround(coordinate)) {
             Optional<Cell> cell = flagMap.get(coordinateAround);
             if (cell.isPresent()) {
                 if (cell.get() == FLAG) {
@@ -80,15 +80,15 @@ public class Flag {
         return count;
     }
 
-    private void setFlagToCell(Coordinate coordinate) {
+    private void setFlagToCell(CoordinateUtility coordinate) {
         flagMap.set(FLAG, coordinate);
     }
 
-    public void setQuestionToCell(Coordinate coordinate) {
+    public void setQuestionToCell(CoordinateUtility coordinate) {
         flagMap.set(QUESTION, coordinate);
     }
 
-    private void setClosedToCell(Coordinate coordinate) {
+    private void setClosedToCell(CoordinateUtility coordinate) {
         flagMap.set(CLOSED, coordinate);
     }
 }

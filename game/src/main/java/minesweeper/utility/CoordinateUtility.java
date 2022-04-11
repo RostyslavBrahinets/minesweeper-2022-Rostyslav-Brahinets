@@ -1,6 +1,6 @@
 package minesweeper.utility;
 
-public record Coordinate(int x, int y) {
+public record CoordinateUtility(int x, int y) {
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -11,7 +11,7 @@ public record Coordinate(int x, int y) {
             return false;
         }
 
-        Coordinate that = (Coordinate) o;
+        CoordinateUtility that = (CoordinateUtility) o;
         return x == that.x && y == that.y;
     }
 }

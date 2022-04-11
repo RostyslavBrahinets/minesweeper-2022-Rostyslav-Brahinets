@@ -1,14 +1,14 @@
 package minesweeper.components;
 
 import minesweeper.enums.Cell;
-import minesweeper.utility.Coordinate;
-import minesweeper.utility.Matrix;
-import minesweeper.utility.Range;
+import minesweeper.utility.CoordinateUtility;
+import minesweeper.utility.MatrixUtility;
+import minesweeper.utility.RangeUtility;
 
 import java.util.Optional;
 
 public class Mine {
-    private Matrix mineMap;
+    private MatrixUtility mineMap;
     private int totalMines;
 
     public Mine(int totalMines) {
@@ -17,13 +17,13 @@ public class Mine {
     }
 
     public void start() {
-        mineMap = new Matrix(Cell.EMPTY);
+        mineMap = new MatrixUtility(Cell.EMPTY);
         for (int i = 0; i < totalMines; i++) {
             placeMine();
         }
     }
 
-    public Optional<Cell> get(Coordinate coordinate) {
+    public Optional<Cell> get(CoordinateUtility coordinate) {
         return mineMap.get(coordinate);
     }
 
@@ -32,9 +32,9 @@ public class Mine {
     }
 
     private void fixMinesCount() {
-        Optional<Coordinate> sizeOptional = Range.getSize();
+        Optional<CoordinateUtility> sizeOptional = RangeUtility.getSize();
         if (sizeOptional.isPresent()) {
-            Coordinate size = sizeOptional.get();
+            CoordinateUtility size = sizeOptional.get();
             int maxMines = size.x() * size.y() / 2;
             if (totalMines > maxMines) {
                 totalMines = maxMines;
@@ -44,9 +44,9 @@ public class Mine {
 
     private void placeMine() {
         while (true) {
-            Optional<Coordinate> coordinateOptional = Range.getRandomCoordinate();
+            Optional<CoordinateUtility> coordinateOptional = RangeUtility.getRandomCoordinate();
             if (coordinateOptional.isPresent()) {
-                Coordinate coordinate = coordinateOptional.get();
+                CoordinateUtility coordinate = coordinateOptional.get();
 
                 Optional<Cell> mine = mineMap.get(coordinate);
                 if (mine.isPresent()) {
@@ -62,8 +62,8 @@ public class Mine {
         }
     }
 
-    private void incrementNumbersAroundMine(Coordinate coordinate) {
-        for (Coordinate aroundCoordinate : Range.getCoordinatesAround(coordinate)) {
+    private void incrementNumbersAroundMine(CoordinateUtility coordinate) {
+        for (CoordinateUtility aroundCoordinate : RangeUtility.getCoordinatesAround(coordinate)) {
             Optional<Cell> mineOptional = mineMap.get(aroundCoordinate);
             if (mineOptional.isPresent()) {
                 Cell mine = mineOptional.get();

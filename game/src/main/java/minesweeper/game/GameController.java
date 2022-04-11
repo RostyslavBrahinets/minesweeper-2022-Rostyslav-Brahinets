@@ -1,7 +1,7 @@
 package minesweeper.game;
 
-import minesweeper.utility.Coordinate;
-import minesweeper.utility.Range;
+import minesweeper.utility.CoordinateUtility;
+import minesweeper.utility.RangeUtility;
 import minesweeper.components.Flag;
 import minesweeper.components.Mine;
 import minesweeper.enums.Cell;
@@ -16,7 +16,7 @@ public class GameController {
     private int countOfMines;
 
     public GameController(int columns, int rows, int mines) {
-        Range.setSize(new Coordinate(columns, rows));
+        RangeUtility.setSize(new CoordinateUtility(columns, rows));
         mine = new Mine(mines);
         flag = new Flag();
     }
@@ -28,7 +28,7 @@ public class GameController {
         countOfMines = mine.getTotalMines();
     }
 
-    public Optional<Cell> getCell(Coordinate coordinate) {
+    public Optional<Cell> getCell(CoordinateUtility coordinate) {
         Optional<Cell> cell = flag.get(coordinate);
 
         if (cell.isPresent()) {
@@ -40,7 +40,7 @@ public class GameController {
         return flag.get(coordinate);
     }
 
-    public void pressLeftButton(Coordinate coordinate) {
+    public void pressLeftButton(CoordinateUtility coordinate) {
         if (gameOver()) {
             return;
         }
@@ -49,7 +49,7 @@ public class GameController {
         checkWinner();
     }
 
-    public void doubleClickLeftButton(Coordinate coordinate) {
+    public void doubleClickLeftButton(CoordinateUtility coordinate) {
         Optional<Cell> cell = flag.get(coordinate);
 
         if (cell.isPresent()) {
@@ -61,7 +61,7 @@ public class GameController {
         checkWinner();
     }
 
-    public void pressRightButton(Coordinate coordinate) {
+    public void pressRightButton(CoordinateUtility coordinate) {
         if (gameOver()) {
             return;
         }
@@ -103,7 +103,7 @@ public class GameController {
         }
     }
 
-    private void openCell(Coordinate coordinate) {
+    private void openCell(CoordinateUtility coordinate) {
         Optional<Cell> cellOptional = flag.get(coordinate);
         Optional<Cell> mineOptional = mine.get(coordinate);
 
@@ -124,19 +124,19 @@ public class GameController {
         }
     }
 
-    private void openCellsAround(Coordinate coordinate) {
+    private void openCellsAround(CoordinateUtility coordinate) {
         flag.setOpenedToCell(coordinate);
 
-        for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
+        for (CoordinateUtility coordinateAround : RangeUtility.getCoordinatesAround(coordinate)) {
             openCell(coordinateAround);
         }
     }
 
-    private void openMines(Coordinate coordinateWithMine) {
+    private void openMines(CoordinateUtility coordinateWithMine) {
         state = GameState.FAILED;
         flag.setFailToCell(coordinateWithMine);
 
-        for (Coordinate coordinate : Range.getCoordinates()) {
+        for (CoordinateUtility coordinate : RangeUtility.getCoordinates()) {
             Optional<Cell> cell = mine.get(coordinate);
 
             if (cell.isPresent()) {
@@ -149,13 +149,13 @@ public class GameController {
         }
     }
 
-    private void setOpenedToClosedCellsAroundNumber(Coordinate coordinate) {
+    private void setOpenedToClosedCellsAroundNumber(CoordinateUtility coordinate) {
         Optional<Cell> cell = mine.get(coordinate);
 
         if (cell.isPresent()) {
             if (cell.get() != Cell.MINE) {
                 if (flag.getCountOfFlagsAround(coordinate) == cell.get().getNumber()) {
-                    for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
+                    for (CoordinateUtility coordinateAround : RangeUtility.getCoordinatesAround(coordinate)) {
                         Optional<Cell> cellAround = flag.get(coordinateAround);
 
                         if (cellAround.isPresent()) {
