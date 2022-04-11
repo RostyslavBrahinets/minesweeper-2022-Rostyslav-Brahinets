@@ -30,7 +30,7 @@ public class Mine {
         Optional<Coordinate> sizeOptional = Range.getSize();
         if (sizeOptional.isPresent()) {
             Coordinate size = sizeOptional.get();
-            int maxMines = size.getX() * size.getY() / 2;
+            int maxMines = size.x() * size.y() / 2;
             if (totalMines > maxMines) {
                 totalMines = maxMines;
             }

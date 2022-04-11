@@ -18,8 +18,8 @@ public class Range {
         size = newSize;
 
         coordinates = new ArrayList<>();
-        for (int y = 0; y < size.getY(); y++) {
-            for (int x = 0; x < size.getX(); x++) {
+        for (int y = 0; y < size.y(); y++) {
+            for (int x = 0; x < size.x(); x++) {
                 coordinates.add(new Coordinate(x, y));
             }
         }
@@ -30,16 +30,16 @@ public class Range {
     }
 
     static boolean inRange(Coordinate coordinate) {
-        return coordinate.getX() >= 0
-            && coordinate.getX() < size.getX()
-            && coordinate.getY() >= 0
-            && coordinate.getY() < size.getY();
+        return coordinate.x() >= 0
+            && coordinate.x() < size.x()
+            && coordinate.y() >= 0
+            && coordinate.y() < size.y();
     }
 
     static Optional<Coordinate> getRandomCoordinate() {
         Coordinate coordinate = new Coordinate(
-            random.nextInt(size.getX()),
-            random.nextInt(size.getY())
+            random.nextInt(size.x()),
+            random.nextInt(size.y())
         );
 
         return Optional.of(coordinate);
@@ -49,8 +49,8 @@ public class Range {
         Coordinate coordinateAround;
         List<Coordinate> coordinates = new ArrayList<>();
 
-        for (int x = coordinate.getX() - 1; x <= coordinate.getX() + 1; x++) {
-            for (int y = coordinate.getY() - 1; y <= coordinate.getY() + 1; y++) {
+        for (int x = coordinate.x() - 1; x <= coordinate.x() + 1; x++) {
+            for (int y = coordinate.y() - 1; y <= coordinate.y() + 1; y++) {
                 coordinateAround = new Coordinate(x, y);
                 if (inRange(coordinateAround)) {
                     if (!coordinateAround.equals(coordinate)) {

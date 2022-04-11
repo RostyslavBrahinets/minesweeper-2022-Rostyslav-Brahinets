@@ -67,8 +67,8 @@ public class Minesweeper extends JFrame {
                     cellOptional.ifPresent(
                         cell -> g.drawImage(
                             (Image) cell.image,
-                            coordinate.getX() * CELL_SIZE,
-                            coordinate.getY() * CELL_SIZE,
+                            coordinate.x() * CELL_SIZE,
+                            coordinate.y() * CELL_SIZE,
                             this
                         )
                     );
@@ -109,8 +109,8 @@ public class Minesweeper extends JFrame {
         Optional<Coordinate> sizeOptional = Range.getSize();
         sizeOptional.ifPresent(size -> panel.setPreferredSize(
             new Dimension(
-                size.getX() * CELL_SIZE,
-                size.getY() * CELL_SIZE
+                size.x() * CELL_SIZE,
+                size.y() * CELL_SIZE
             )
         ));
 

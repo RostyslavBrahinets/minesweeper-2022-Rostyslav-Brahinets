@@ -9,7 +9,7 @@ public class Flag {
     void start() {
         flagMap = new Matrix(Cell.CLOSED);
         Optional<Coordinate> size = Range.getSize();
-        size.ifPresent(coordinate -> countOfClosedCells = coordinate.getX() * coordinate.getY());
+        size.ifPresent(coordinate -> countOfClosedCells = coordinate.x() * coordinate.y());
     }
 
     Optional<Cell> get(Coordinate coordinate) {

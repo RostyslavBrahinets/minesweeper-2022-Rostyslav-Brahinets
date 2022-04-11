@@ -8,10 +8,10 @@ public class Matrix {
     public Matrix(Cell defaultCell) {
         Optional<Coordinate> sizeOptional = Range.getSize();
         if (sizeOptional.isPresent()) {
-            matrix = new Cell[sizeOptional.get().getX()][sizeOptional.get().getY()];
+            matrix = new Cell[sizeOptional.get().x()][sizeOptional.get().y()];
 
             for (Coordinate coordinate : Range.getCoordinates()) {
-                matrix[coordinate.getX()][coordinate.getY()] = defaultCell;
+                matrix[coordinate.x()][coordinate.y()] = defaultCell;
             }
         }
     }
@@ -19,14 +19,14 @@ public class Matrix {
     Optional<Cell> get(Coordinate coordinate) {
         Cell cell = null;
         if (Range.inRange(coordinate)) {
-            cell = matrix[coordinate.getX()][coordinate.getY()];
+            cell = matrix[coordinate.x()][coordinate.y()];
         }
         return Optional.ofNullable(cell);
     }
 
     void set(Cell cell, Coordinate coordinate) {
         if (Range.inRange(coordinate)) {
-            matrix[coordinate.getX()][coordinate.getY()] = cell;
+            matrix[coordinate.x()][coordinate.y()] = cell;
         }
     }
 }
