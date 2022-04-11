@@ -1,4 +1,4 @@
-package minesweeper;
+package minesweeper.panels;
 
 import javax.swing.*;
 import java.awt.*;

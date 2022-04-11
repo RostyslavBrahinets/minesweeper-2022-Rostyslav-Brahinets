@@ -10,11 +10,11 @@ public class Range {
     private static Coordinate size;
     private static List<Coordinate> coordinates;
 
-    static Optional<Coordinate> getSize() {
+    public static Optional<Coordinate> getSize() {
         return Optional.ofNullable(size);
     }
 
-    static void setSize(Coordinate newSize) {
+    public static void setSize(Coordinate newSize) {
         size = newSize;
         coordinates = new ArrayList<>();
 
@@ -25,18 +25,18 @@ public class Range {
         }
     }
 
-    static List<Coordinate> getCoordinates() {
+    public static List<Coordinate> getCoordinates() {
         return coordinates;
     }
 
-    static boolean inRange(Coordinate coordinate) {
+    public static boolean inRange(Coordinate coordinate) {
         return coordinate.x() >= 0
             && coordinate.x() < size.x()
             && coordinate.y() >= 0
             && coordinate.y() < size.y();
     }
 
-    static Optional<Coordinate> getRandomCoordinate() {
+    public static Optional<Coordinate> getRandomCoordinate() {
         Coordinate coordinate = new Coordinate(
             random.nextInt(size.x()),
             random.nextInt(size.y())
@@ -45,7 +45,7 @@ public class Range {
         return Optional.of(coordinate);
     }
 
-    static List<Coordinate> getCoordinatesAround(Coordinate coordinate) {
+    public static List<Coordinate> getCoordinatesAround(Coordinate coordinate) {
         Coordinate coordinateAround;
         List<Coordinate> coordinates = new ArrayList<>();
 
