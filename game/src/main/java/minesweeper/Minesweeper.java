@@ -7,13 +7,15 @@ import java.awt.event.MouseEvent;
 import java.util.Objects;
 import java.util.Optional;
 
+import static minesweeper.GameState.FAILED;
+import static minesweeper.GameState.WINNER;
+
 public class Minesweeper extends JFrame {
     private final int COLUMNS = 9;
     private final int ROWS = 9;
     private final int CELL_SIZE = 50;
     private final int MINES = 10;
     private final GameController gameController;
-    private JLabel label;
     private JPanel panel;
 
     public Minesweeper() {
@@ -23,14 +25,8 @@ public class Minesweeper extends JFrame {
     public void start() {
         gameController.start();
         setImages();
-        initLabel();
         initPanel();
         initFrame();
-    }
-
-    public void initLabel() {
-        label = new JLabel("Welcome!");
-        add(label, BorderLayout.SOUTH);
     }
 
     private void initPanel() {
@@ -59,6 +55,7 @@ public class Minesweeper extends JFrame {
                 int y = e.getY() / CELL_SIZE;
                 Coordinate coordinate = new Coordinate(x, y);
 
+
                 if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                     gameController.doubleClickLeftButton(coordinate);
                 } else if (e.getButton() == MouseEvent.BUTTON1) {
@@ -69,8 +66,13 @@ public class Minesweeper extends JFrame {
                     gameController.start();
                 }
 
-                label.setText(getMessage());
                 panel.repaint();
+
+                if (gameController.getState() == FAILED) {
+                    showMessage("Sorry! You died!", panel);
+                } else if (gameController.getState() == WINNER) {
+                    showMessage("Wow! You did it!", panel);
+                }
             }
         });
 
@@ -83,14 +85,6 @@ public class Minesweeper extends JFrame {
         ));
 
         add(panel);
-    }
-
-    private String getMessage() {
-        return switch (gameController.getState()) {
-            case PLAYED -> "Find all the mines!";
-            case FAILED -> "Sorry! You died!";
-            case WINNER -> "Wow! You did it!";
-        };
     }
 
     private void initFrame() {
@@ -117,5 +111,28 @@ public class Minesweeper extends JFrame {
             Objects.requireNonNull(Minesweeper.class.getResource(fileName))
         );
         return Optional.ofNullable(imageIcon.getImage());
+    }
+
+    private void showMessage(String message, JPanel panel) {
+        JFrame frame = new JFrame();
+
+        JDialog dialog = new JDialog(frame);
+        dialog.setLayout(new FlowLayout());
+        dialog.setSize(new Dimension(200, 100));
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(null);
+
+        JButton button = new JButton("New Game");
+        button.addActionListener(clicked -> {
+            dialog.setVisible(false);
+            gameController.start();
+            panel.repaint();
+        });
+
+        JLabel label = new JLabel(message);
+
+        dialog.add(label);
+        dialog.add(button);
+        dialog.setVisible(true);
     }
 }
