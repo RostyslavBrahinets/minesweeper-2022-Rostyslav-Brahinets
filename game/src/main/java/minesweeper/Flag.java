@@ -2,12 +2,14 @@ package minesweeper;
 
 import java.util.Optional;
 
+import static minesweeper.Cell.*;
+
 public class Flag {
     private Matrix flagMap;
     private int countOfClosedCells;
 
     void start() {
-        flagMap = new Matrix(Cell.CLOSED);
+        flagMap = new Matrix(CLOSED);
         Optional<Coordinate> size = Range.getSize();
         size.ifPresent(coordinate -> countOfClosedCells = coordinate.x() * coordinate.y());
     }
@@ -24,27 +26,24 @@ public class Flag {
     void toggleFlagInCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
-            switch (cell.get()) {
-                case CLOSED -> setFlagToCell(coordinate);
-                case FLAG -> setQuestionToCell(coordinate);
-                case QUESTION -> setClosedToCell(coordinate);
+            if (cell.get() == CLOSED) {
+                setFlagToCell(coordinate);
+            } else if (cell.get() == FLAG) {
+                setQuestionToCell(coordinate);
+            } else if (cell.get() == QUESTION) {
+                setClosedToCell(coordinate);
             }
         }
-
     }
 
     void setFailToCell(Coordinate coordinate) {
         flagMap.set(Cell.FAIL, coordinate);
     }
 
-    int getCountOfClosedCells() {
-        return countOfClosedCells;
-    }
-
     void setOpenedToClosedMineCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
-            if (cell.get() == Cell.CLOSED) {
+            if (cell.get() == CLOSED) {
                 flagMap.set(Cell.OPENED, coordinate);
             }
         }
@@ -53,10 +52,14 @@ public class Flag {
     void setNomineToFlagSafeCell(Coordinate coordinate) {
         Optional<Cell> cell = flagMap.get(coordinate);
         if (cell.isPresent()) {
-            if (cell.get() == Cell.FLAG) {
+            if (cell.get() == FLAG) {
                 flagMap.set(Cell.NOMINE, coordinate);
             }
         }
+    }
+
+    int getCountOfClosedCells() {
+        return countOfClosedCells;
     }
 
     int getCountOfFlagsAround(Coordinate coordinate) {
@@ -64,7 +67,7 @@ public class Flag {
         for (Coordinate coordinateAround : Range.getCoordinatesAround(coordinate)) {
             Optional<Cell> cell = flagMap.get(coordinateAround);
             if (cell.isPresent()) {
-                if (cell.get() == Cell.FLAG) {
+                if (cell.get() == FLAG) {
                     count++;
                 }
             }
@@ -73,14 +76,14 @@ public class Flag {
     }
 
     private void setFlagToCell(Coordinate coordinate) {
-        flagMap.set(Cell.FLAG, coordinate);
+        flagMap.set(FLAG, coordinate);
     }
 
     public void setQuestionToCell(Coordinate coordinate) {
-        flagMap.set(Cell.QUESTION, coordinate);
+        flagMap.set(QUESTION, coordinate);
     }
 
     private void setClosedToCell(Coordinate coordinate) {
-        flagMap.set(Cell.CLOSED, coordinate);
+        flagMap.set(CLOSED, coordinate);
     }
 }
