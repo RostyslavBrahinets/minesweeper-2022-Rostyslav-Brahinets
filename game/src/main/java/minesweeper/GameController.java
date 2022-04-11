@@ -6,6 +6,7 @@ public class GameController {
     private final Mine mine;
     private final Flag flag;
     private GameState state;
+    private int countOfMines;
 
     public GameController(int columns, int rows, int mines) {
         Range.setSize(new Coordinate(columns, rows));
@@ -17,6 +18,7 @@ public class GameController {
         mine.start();
         flag.start();
         state = GameState.PLAYED;
+        countOfMines = mine.getTotalMines();
     }
 
     public Optional<Cell> getCell(Coordinate coordinate) {
@@ -52,10 +54,23 @@ public class GameController {
             return;
         }
         flag.toggleFlagInCell(coordinate);
+
+        Optional<Cell> cell = getCell(coordinate);
+        if (cell.isPresent()) {
+            if (cell.get() == Cell.FLAG) {
+                countOfMines--;
+            } else if (cell.get() == Cell.QUESTION) {
+                countOfMines++;
+            }
+        }
     }
 
     public GameState getState() {
         return state;
+    }
+
+    public int getCountOfMines() {
+        return countOfMines;
     }
 
     private boolean gameOver() {
@@ -68,7 +83,7 @@ public class GameController {
 
     private void checkWinner() {
         if (state == GameState.PLAYED) {
-            if (flag.getCountOfClosedMines() == mine.getTotalMines()) {
+            if (flag.getCountOfClosedCells() == mine.getTotalMines()) {
                 state = GameState.WINNER;
             }
         }
@@ -89,6 +104,7 @@ public class GameController {
                     openCellsAround(coordinate);
                     return;
                 } else if (mineCell == Cell.MINE) {
+                    countOfMines--;
                     openMines(coordinate);
                     return;
                 } else {

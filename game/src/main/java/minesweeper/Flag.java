@@ -37,7 +37,7 @@ public class Flag {
         flagMap.set(Cell.FAIL, coordinate);
     }
 
-    int getCountOfClosedMines() {
+    int getCountOfClosedCells() {
         return countOfClosedCells;
     }
 

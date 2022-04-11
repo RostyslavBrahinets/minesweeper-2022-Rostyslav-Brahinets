@@ -16,6 +16,7 @@ public class Minesweeper extends JFrame {
     private final int CELL_SIZE = 50;
     private final int MINES = 10;
     private final GameController gameController;
+    private JLabel label;
     private JPanel panel;
 
     public Minesweeper() {
@@ -25,8 +26,20 @@ public class Minesweeper extends JFrame {
     public void start() {
         gameController.start();
         setImages();
+        initCounter();
         initPanel();
         initFrame();
+    }
+
+    private void initCounter() {
+        String count = MINES + " mines left";
+        label = new JLabel(count);
+        label.setFont(new Font("Arial", Font.PLAIN, 50));
+        label.setSize(new Dimension());
+
+        panel = new JPanel();
+        panel.add(label);
+        add(panel, BorderLayout.NORTH);
     }
 
     private void initPanel() {
@@ -55,7 +68,6 @@ public class Minesweeper extends JFrame {
                 int y = e.getY() / CELL_SIZE;
                 Coordinate coordinate = new Coordinate(x, y);
 
-
                 if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                     gameController.doubleClickLeftButton(coordinate);
                 } else if (e.getButton() == MouseEvent.BUTTON1) {
@@ -65,6 +77,8 @@ public class Minesweeper extends JFrame {
                 } else if (e.getButton() == MouseEvent.BUTTON2) {
                     gameController.start();
                 }
+
+                label.setText(gameController.getCountOfMines() + " mines left");
 
                 panel.repaint();
 
@@ -126,6 +140,7 @@ public class Minesweeper extends JFrame {
         button.addActionListener(clicked -> {
             dialog.setVisible(false);
             gameController.start();
+            label.setText(gameController.getCountOfMines() + " mines left");
             panel.repaint();
         });
 
