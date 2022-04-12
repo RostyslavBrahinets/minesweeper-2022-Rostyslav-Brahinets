@@ -2,6 +2,7 @@ package minesweeper.panels;
 
 import minesweeper.controllers.GameController;
 import minesweeper.enums.Cell;
+import minesweeper.enums.GameState;
 import minesweeper.utility.CoordinateUtility;
 import minesweeper.utility.MessageUtility;
 import minesweeper.utility.RangeUtility;
@@ -92,12 +93,13 @@ public class MainPanel extends JPanel {
 
     private void checkStateOfGame() {
         Optional<Timer> timer = infoPanel.getTimer();
-        if (timer.isPresent()) {
-            if (gameController.getState() == FAILED) {
+        Optional<GameState> state = gameController.getState();
+        if (timer.isPresent() && state.isPresent()) {
+            if (state.get() == FAILED) {
                 Optional<String> messageForLoser = MessageUtility.getMessageForLoser();
                 messageForLoser.ifPresent(this::showMessage);
                 timer.get().stop();
-            } else if (gameController.getState() == WINNER) {
+            } else if (state.get() == WINNER) {
                 Optional<String> messageForWinner = MessageUtility.getMessageForWinner();
                 messageForWinner.ifPresent(this::showMessage);
                 timer.get().stop();

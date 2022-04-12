@@ -80,8 +80,8 @@ public class GameController {
         }
     }
 
-    public GameState getState() {
-        return state;
+    public Optional<GameState> getState() {
+        return Optional.ofNullable(state);
     }
 
     public int getCountOfMines() {
