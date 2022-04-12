@@ -57,7 +57,7 @@ public class MainPanel extends JPanel {
                 checkClick(e, coordinate);
                 Optional<JLabel> counterLabel = infoPanel.getCounterLabel();
                 counterLabel.ifPresent(label -> label.setText(
-                    gameController.getCountOfMines() + " mines left"
+                    "Залишилося ще " + gameController.getCountOfMines() + " мін"
                 ));
                 repaint();
                 checkStateOfGame();
@@ -97,17 +97,17 @@ public class MainPanel extends JPanel {
         if (timer.isPresent() && state.isPresent()) {
             if (state.get() == FAILED) {
                 Optional<String> messageForLoser = MessageUtility.getMessageForLoser();
-                messageForLoser.ifPresent(this::showMessage);
+                messageForLoser.ifPresent(s -> showMessage(s, false));
                 timer.get().stop();
             } else if (state.get() == WINNER) {
                 Optional<String> messageForWinner = MessageUtility.getMessageForWinner();
-                messageForWinner.ifPresent(this::showMessage);
+                messageForWinner.ifPresent(s -> showMessage(s, true));
                 timer.get().stop();
             }
         }
     }
 
-    private void showMessage(String message) {
+    private void showMessage(String message, boolean win) {
         JFrame frame = new JFrame();
 
         JDialog dialog = new JDialog(frame);
@@ -117,8 +117,14 @@ public class MainPanel extends JPanel {
         dialog.setLocationRelativeTo(null);
 
         JLabel label = new JLabel(message);
-        Font font = new Font("Arial", Font.PLAIN, 36);
+        Font font = new Font("Arial", Font.PLAIN, 24);
         label.setFont(font);
+
+        if (win) {
+            label.setForeground(Color.GREEN);
+        } else {
+            label.setForeground(Color.RED);
+        }
 
         Optional<JButton> buttonOptional = getButtonNewGame(dialog);
 
@@ -128,7 +134,7 @@ public class MainPanel extends JPanel {
     }
 
     private Optional<JButton> getButtonNewGame(JDialog dialog) {
-        JButton button = new JButton("New Game");
+        JButton button = new JButton("Нова гра");
         button.addActionListener(clicked -> {
             dialog.setVisible(false);
             gameController.start();
@@ -137,9 +143,9 @@ public class MainPanel extends JPanel {
             Optional<JLabel> counterLabel = infoPanel.getCounterLabel();
             Optional<Timer> timer = infoPanel.getTimer();
 
-            timeLabel.ifPresent(label -> label.setText("Time: 0"));
+            timeLabel.ifPresent(label -> label.setText("Час: 0"));
             counterLabel.ifPresent(label -> label.setText(
-                gameController.getCountOfMines() + " mines left"
+                "Залишилося ще " + gameController.getCountOfMines() + " мін"
             ));
             timer.ifPresent(Timer::restart);
 

@@ -12,7 +12,7 @@ public class InfoPanel extends JPanel {
     private int time;
 
     public InfoPanel(int mines) {
-        font = new Font("Arial", Font.PLAIN, 36);
+        font = new Font("Arial", Font.PLAIN, 24);
         setLayout(new BorderLayout());
         SwingUtilities.invokeLater(this::initTimer);
         initCounter(mines);
@@ -36,17 +36,17 @@ public class InfoPanel extends JPanel {
     }
 
     private void initTimer() {
-        timeLabel = new JLabel("Time: " + time);
+        timeLabel = new JLabel("Час: " + time);
         timeLabel.setFont(font);
         add(timeLabel, BorderLayout.WEST);
         timer = new Timer(
-            1000, e -> timeLabel.setText("Time: " + ++time)
+            1000, e -> timeLabel.setText("Час: " + ++time)
         );
         timer.start();
     }
 
     private void initCounter(int mines) {
-        String count = mines + " mines left";
+        String count = "Залишилося ще " + mines + " мін";
         counterLabel = new JLabel(count);
         counterLabel.setFont(font);
         add(counterLabel, BorderLayout.EAST);

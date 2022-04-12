@@ -14,8 +14,6 @@ checkstyleTest {
     source = 'src/test/java'
 }
 
-version 'unspecified'
-
 repositories {
     mavenCentral()
 }

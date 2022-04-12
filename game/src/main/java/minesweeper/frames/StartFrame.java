@@ -34,7 +34,7 @@ public class StartFrame extends JPanel implements ActionListener {
         JComponent newContentPane = new StartFrame();
         newContentPane.setOpaque(true);
 
-        frame.setTitle("Minesweeper");
+        frame.setTitle("Розмінуй Україну");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(newContentPane);
         frame.setResizable(false);
@@ -48,7 +48,7 @@ public class StartFrame extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("OK")) {
+        if (e.getActionCommand().equals("Добре")) {
             setParametersForLevel(levelOfGame);
             frame.setVisible(false);
             startOfGame();
@@ -58,26 +58,27 @@ public class StartFrame extends JPanel implements ActionListener {
     }
 
     private void initialLabel() {
-        Font font = new Font("Arial", Font.BOLD, 48);
+        Font font = new Font("Arial", Font.BOLD, 36);
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("Select level of game");
+        JLabel label = new JLabel("Оберіть рівень складності гри");
         label.setFont(font);
         panel.add(label);
         add(panel, BorderLayout.NORTH);
     }
 
     private void initialRadioButtons() {
-        Font font = new Font("Arial", Font.PLAIN, 32);
-
-        String beginner = "Beginner (10 mines; 9x9 tile grid)";
-        String intermediate = "Intermediate (40 mines; 16x16 tile grid)";
-        String advanced = "Advanced (99 mines; 16x30 tile grid)";
-
+        Font font = new Font("Arial", Font.PLAIN, 24);
         List<JRadioButton> radioButtons = new ArrayList<>();
+
+        String beginner = "Початковий (10 мін і поле 9x9)";
         Optional<JRadioButton> radioButton = getRadioButton(beginner, Level.BEGINNER, font, true);
         radioButton.ifPresent(radioButtons::add);
+
+        String intermediate = "Середній (40 мін і поле 16x16)";
         radioButton = getRadioButton(intermediate, Level.INTERMEDIATE, font, false);
         radioButton.ifPresent(radioButtons::add);
+
+        String advanced = "Тяжкий (99 мін і поле 16x30)";
         radioButton = getRadioButton(advanced, Level.ADVANCED, font, false);
         radioButton.ifPresent(radioButtons::add);
 
@@ -95,16 +96,21 @@ public class StartFrame extends JPanel implements ActionListener {
     }
 
     private void initialButton() {
-        Font font = new Font("Arial", Font.BOLD, 48);
+        Font font = new Font("Arial", Font.BOLD, 36);
         JPanel panel = new JPanel();
-        JButton button = new JButton("OK");
+        JButton button = new JButton("Обрати");
         button.setFont(font);
         button.addActionListener(this);
         panel.add(button);
         add(panel, BorderLayout.SOUTH);
     }
 
-    private Optional<JRadioButton> getRadioButton(String text, Level level, Font font, boolean selected) {
+    private Optional<JRadioButton> getRadioButton(
+        String text,
+        Level level,
+        Font font,
+        boolean selected
+    ) {
         JRadioButton radioButton = new JRadioButton(text);
         radioButton.setActionCommand(String.valueOf(level));
         radioButton.setFont(font);

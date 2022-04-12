@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
         initInfoPanel();
         initMainPanel();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Minesweeper");
+        setTitle("Розмінуй Україну");
         setResizable(false);
         setVisible(true);
         pack();
