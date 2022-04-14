@@ -22,7 +22,7 @@ public class ImageUtility {
 
     public static Optional<Image> getImage(String name, String level) {
         String fileName;
-        if (level.isBlank()) {
+        if (level.isEmpty()) {
             fileName = "/images/" + name + ".png";
         } else {
             fileName = "/images/" + level.toLowerCase() + "/" + name + ".png";
