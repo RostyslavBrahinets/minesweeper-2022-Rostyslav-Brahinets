@@ -112,9 +112,8 @@ public class MainPanel extends JPanel {
 
         JDialog dialog = new JDialog(frame);
         dialog.setLayout(new FlowLayout());
-        dialog.setSize(new Dimension(325, 125));
-        dialog.setResizable(false);
-        dialog.setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel(new BorderLayout());
 
         JLabel label = new JLabel(message);
         Font font = new Font("Arial", Font.PLAIN, 24);
@@ -128,8 +127,13 @@ public class MainPanel extends JPanel {
 
         Optional<JButton> buttonOptional = getButtonNewGame(dialog);
 
-        dialog.add(label);
-        buttonOptional.ifPresent(dialog::add);
+        panel.add(label, BorderLayout.NORTH);
+        buttonOptional.ifPresent(jButton -> panel.add(jButton, BorderLayout.SOUTH));
+
+        dialog.add(panel);
+        dialog.pack();
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
 

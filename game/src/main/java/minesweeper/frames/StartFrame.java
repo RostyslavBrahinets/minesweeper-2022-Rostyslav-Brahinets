@@ -48,7 +48,7 @@ public class StartFrame extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("Добре")) {
+        if (e.getActionCommand().equals("Обрати")) {
             setParametersForLevel(levelOfGame);
             frame.setVisible(false);
             startOfGame();
